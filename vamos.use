@@ -1,0 +1,4 @@
+Name: Vamos
+Description: 2D component-oriented game engine based on FlashPunk
+SourcePath: source
+Requires: sdl2, stb-image
