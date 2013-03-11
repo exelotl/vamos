@@ -13,18 +13,6 @@ Texture: class {
 	width: Double
 	height: Double
 	
-	init: func ~fromSurface (surface:SdlSurface*) {
-		if (!engine || !engine renderer)
-			raise("Can't create texture when engine is not initialised!")
-		data = SDL createTextureFromSurface(engine renderer, surface)
-		width = surface@ w
-		height = surface@ h
-	}
-	
-	init: func ~fromBitmap (bitmap:Bitmap) {
-		init(bitmap surface)
-	}
-	
 	init: func ~fromPath (path:String) {
 		surface := SurfaceLoader load(path)
 		if (surface == null) {
@@ -33,6 +21,29 @@ Texture: class {
 		}
 		init(surface)
 		SDL freeSurface(surface)
+	}
+	
+	init: func ~fromBitmap (bitmap:Bitmap) {
+		init(bitmap surface)
+	}
+	
+	init: func ~fromSurface (surface:SdlSurface*) {
+		assertRendererExists()
+		data = SDL createTextureFromSurface(engine renderer, surface)
+		width = surface@ w
+		height = surface@ h
+	}
+	
+	init: func ~empty (=width, =height, streaming := false) {
+		assertRendererExists()
+		fmt := SDL getWindowPixelFormat(engine window)
+		access := streaming ? SDL_TEXTUREACCESS_STREAMING : SDL_TEXTUREACCESS_STATIC
+		data = SDL createTexture (engine renderer, fmt, access, width, height)
+	}
+	
+	assertRendererExists: func {
+		if (!engine || !engine renderer)
+			raise("Can't create texture when engine is not initialised!")
 	}
 	
 	color: Color {

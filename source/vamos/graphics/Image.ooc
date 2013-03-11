@@ -28,9 +28,12 @@ Image: class extends Graphic {
 	
 	angle:Double
 	
-	init: func (path:String) {
-		super()
-		texture = engine assets getTexture(path)
+	init: func~path (key:String) {
+		texture = engine assets getTexture(key)
+		init(texture)
+	}
+	
+	init: func~texture (=texture) {
 		dstRect w = texture width
 		dstRect h = texture height
 		srcRect w = texture width

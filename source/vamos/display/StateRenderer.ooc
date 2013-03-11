@@ -13,11 +13,18 @@ import vamos/AssetCache
 StateRenderer: class {
 	
 	state: State
+	window: SdlWindow
 	target: SdlRenderer
+	
+	format: UInt32 // pixel format
+	width, height: UInt
 	
 	camX, camY:Double
 	
-	init: func (=target)
+	init: func (=window, =target) {
+		format = SDL getWindowPixelFormat(window)
+		SDL getWindowSize(window, width&, height&)
+	}
 	
 	drawTexture: inline func(texture:Texture, sourceRect, destRect:SdlRect*) {
 		SDL renderCopy(target, texture data, sourceRect, destRect)

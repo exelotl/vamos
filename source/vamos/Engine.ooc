@@ -55,7 +55,7 @@ Engine: class {
 		assets = AssetCache new(this)
 		mixer = Mixer new() .open()
 		stateManager = StateManager new()
-		stateRenderer = StateRenderer new(renderer)
+		stateRenderer = StateRenderer new(window, renderer)
 	}
 	
 	
