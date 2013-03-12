@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"SDL",
+				"SDL_TEXTUREACCESS_STREAMING"
+			],
+			[
+				"tile",
+				"tileH"
+			],
+			[
+				"ti",
+				"tileW"
+			],
+			[
 				"pla",
 				"playstate"
 			],
@@ -502,23 +514,71 @@
 			[
 				"T",
 				"TILE_SIZE"
-			],
-			[
-				"clus",
-				"canvasClusterX"
-			],
-			[
-				"fliv",
-				"flipCanvasClusterH"
-			],
-			[
-				"flipCa",
-				"flipCanvasClusterH"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "/D/Dev/ooc/ooc-sdl2/source/sdl2/Core.ooc",
+			"settings":
+			{
+				"buffer_size": 23340,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "source/vamos/graphics/Image.ooc",
+			"settings":
+			{
+				"buffer_size": 1138,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "use sdl2\nimport sdl2/Core\nimport vamos/[Engine, AssetCache, Graphic]\nimport vamos/display/[StateRenderer, Texture]\n\n// TODO finish this\n// TODO split rendering into chunks, so that large map sizes don't break.\n\nTileMap: class extends Graphic {\n	\n	source: Texture\n	data: UInt*\n	\n	srcRect, destRect: SdlRect\n	width, height: Int // size in pixels\n	w, h: Int  // size in tiles\n	\n	init: func (path:String, .w, .h, tileW, tileH:UInt) {\n		init(engine assets getTexture(path), w, h, tileW, tileH)\n	}\n	\n	init: func (=source, =w, =h, tileW, tileH:UInt) {\n		width = w * tileW\n		height = h * tileH\n		srcRect w = destRect w = w\n		srcRect h = destRect h = h\n	}\n	\n	draw: func (renderer:StateRenderer, entity:Entity, x, y:Double) {\n		if (!data) return\n		\n		startX:Int = (renderer camX - x) / tileW\n		startY:Int = (renderer camY - y) / tileH\n		screenW := renderer width / tileW\n		screenH := renderer height / tileH\n		endX := startX + screenW\n		endY := startY + screenH\n		\n		for (x in )\n	}\n		\n}",
+			"file": "source/vamos/graphics/TileMap.ooc",
+			"file_size": 756,
+			"file_write_time": 130075027625552475,
+			"settings":
+			{
+				"buffer_size": 976,
+				"line_ending": "Windows",
+				"name": "import ./Image"
+			}
+		},
+		{
+			"file": "source/vamos/Graphic.ooc",
+			"settings":
+			{
+				"buffer_size": 283,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "source/vamos/Engine.ooc",
+			"settings":
+			{
+				"buffer_size": 2092,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "source/vamos/display/StateRenderer.ooc",
+			"settings":
+			{
+				"buffer_size": 1428,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "source/vamos/display/Texture.ooc",
+			"settings":
+			{
+				"buffer_size": 1734,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -710,6 +770,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"vSize",
+			"hSize",
 			"Physics",
 			"novahtek",
 			"com.novahtek",
@@ -835,8 +897,6 @@
 			"Chunk.HEIGHT",
 			"Chunk.WIDTH",
 			"\\n*\\n",
-			"\\n\\n",
-			"\\r\\n\\r\\n",
 			"\\n\\n"
 		],
 		"highlight": true,
@@ -980,8 +1040,197 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/D/Dev/ooc/ooc-sdl2/source/sdl2/Core.ooc",
+					"settings":
+					{
+						"buffer_size": 23340,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10592,
+								10508
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3007.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "source/vamos/graphics/Image.ooc",
+					"settings":
+					{
+						"buffer_size": 1138,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								549,
+								494
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 84.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "source/vamos/graphics/TileMap.ooc",
+					"settings":
+					{
+						"buffer_size": 976,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								967,
+								967
+							]
+						],
+						"settings":
+						{
+							"auto_name": "import ./Image",
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 42.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "source/vamos/Graphic.ooc",
+					"settings":
+					{
+						"buffer_size": 283,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								281,
+								227
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "source/vamos/Engine.ooc",
+					"settings":
+					{
+						"buffer_size": 2092,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1211,
+								1211
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 294.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "source/vamos/display/StateRenderer.ooc",
+					"settings":
+					{
+						"buffer_size": 1428,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								403,
+								403
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 84.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "source/vamos/display/Texture.ooc",
+					"settings":
+					{
+						"buffer_size": 1734,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1225,
+								1225
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 429.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -1030,6 +1279,14 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"staeren",
+				"source/vamos/display/StateRenderer.ooc"
+			],
+			[
+				"engine.oc",
+				"source/vamos/Engine.ooc"
+			],
 			[
 				"playstate",
 				"src/states/PlayState.lua"
