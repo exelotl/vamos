@@ -30,3 +30,16 @@ extend Double {
 	toRadians: inline func -> This { rad(this) }
 	toDegrees: inline func -> This { deg(this) }
 }
+
+Point: class {
+	x, y: Double
+	init: func
+	init: func~pos(=x, =y)
+}
+
+Rect: class {
+	x, y, w, h: Double
+	init: func
+	init: func~size(=w, =h)
+	init: func~full(=x, =y, =w, =h)
+}
