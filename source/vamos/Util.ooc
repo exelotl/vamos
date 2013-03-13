@@ -36,8 +36,8 @@ Point: class {
 	init: func
 	init: func~pos(=x, =y)
 	
-	clone: inline func {
-		Point new(x,y)
+	clone: inline func -> This {
+		This new(x,y)
 	}
 }
 
@@ -47,7 +47,7 @@ Rect: class {
 	init: func~size(=w, =h)
 	init: func~full(=x, =y, =w, =h)
 	
-	clone: inline func {
-		Rect new(x,y,w,h)
+	clone: inline func -> This {
+		This new(x,y,w,h)
 	}
 }
