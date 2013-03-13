@@ -35,6 +35,10 @@ Point: class {
 	x, y: Double
 	init: func
 	init: func~pos(=x, =y)
+	
+	clone: inline func {
+		Point new(x,y)
+	}
 }
 
 Rect: class {
@@ -42,4 +46,8 @@ Rect: class {
 	init: func
 	init: func~size(=w, =h)
 	init: func~full(=x, =y, =w, =h)
+	
+	clone: inline func {
+		Rect new(x,y,w,h)
+	}
 }
