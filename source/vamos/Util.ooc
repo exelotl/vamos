@@ -31,13 +31,15 @@ extend Double {
 	toDegrees: inline func -> This { deg(this) }
 }
 
-Point: cover {
+Point: class {
 	x, y: Double
-	set: func(=x, =y)
+	init: func
+	init: func~pos(=x, =y)
 }
 
-Rect: cover {
+Rect: class {
 	x, y, w, h: Double
-	set: func(=x, =y, =w, =h)
-	set: func~size(=w, =h)
+	init: func
+	init: func~size(=w, =h)
+	init: func~full(=x, =y, =w, =h)
 }
