@@ -591,6 +591,14 @@
 				"buffer_size": 733,
 				"line_ending": "Windows"
 			}
+		},
+		{
+			"file": "source/vamos/Util.ooc",
+			"settings":
+			{
+				"buffer_size": 913,
+				"line_ending": "Windows"
+			}
 		}
 	],
 	"build_system": "",
@@ -752,7 +760,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
 			"D:\\Dropbox\\NovahTek\\EclipseWorkspace",
@@ -1053,7 +1061,6 @@
 	"groups":
 	[
 		{
-			"selected": 6,
 			"sheets":
 			[
 				{
@@ -1122,8 +1129,8 @@
 						"selection":
 						[
 							[
-								1483,
-								1483
+								968,
+								968
 							]
 						],
 						"settings":
@@ -1133,7 +1140,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 336.0,
+						"translation.y": 210.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1240,7 +1247,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 126.0,
+						"translation.y": 210.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1286,6 +1293,33 @@
 							[
 								0,
 								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "source/vamos/Util.ooc",
+					"settings":
+					{
+						"buffer_size": 913,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								715,
+								715
 							]
 						],
 						"settings":

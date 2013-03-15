@@ -26,6 +26,8 @@ TileMap: class extends Graphic {
 		height = h * tileH
 		sourceW = source width / tileW
 		sourceH = source height / tileH
+		sourceW toString() println()
+		sourceH toString() println()
 		srcRect w = dstRect w = tileW
 		srcRect h = dstRect h = tileH
 	}
@@ -57,7 +59,7 @@ TileMap: class extends Graphic {
 				if (val) {
 					val -= 1
 					srcRect x = val % sourceW * dstRect w
-					srcRect y = (val / sourceH) * dstRect h
+					srcRect y = (val / sourceW) * dstRect h
 					renderer drawTexture(source, srcRect&, dstRect&)
 				}
 				dstRect y += dstRect h
