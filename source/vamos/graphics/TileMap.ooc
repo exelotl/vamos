@@ -26,8 +26,6 @@ TileMap: class extends Graphic {
 		height = h * tileH
 		sourceW = source width / tileW
 		sourceH = source height / tileH
-		sourceW toString() println()
-		sourceH toString() println()
 		srcRect w = dstRect w = tileW
 		srcRect h = dstRect h = tileH
 	}

@@ -1,49 +1,47 @@
 import vamos/Graphic
+import vamos/graphics/SpriteMap
 
-Anim: class extends Graphic {
+Anim: class extends SpriteMap {
 	
 	frames: Int[]
-	speed: Int
-	looping: Bool
-	playing: Bool
+	looping := true
+	playing := false
 	
-	_currentIndex: Int
-	_tick: Int
+	index: Int
+	speed: Double
+	t: Double
 	
-	init: func (=frames, =speed, =looping) {
-		_tick = 0
-		_currentIndex = 0
+	init: func (path:String, .frameWidth, .frameHeight) {
+		super(path, frameWidth, frameHeight)
+		index = 0
 	}
 	
-	currentFrame: func -> Int {
-		frames[_currentIndex]
+	play: func (=frames, fps:Double) {
+		if (index+1 == frames length)
+			index = 0
+		speed = 1/fps
+		playing = looping = true
+		t = 0
 	}
 	
-	play: func (reset: Bool) {
-		playing = true
-		if (reset)
-			_currentIndex = 0
-		_tick = 0
-	}
+	once: func { looping = false }
+	loop: func { looping = true }
+	reset: func { index = 0 }
+	pause: func { playing = false }
+	stop: func { this reset() .pause() }
 	
-	pause: func {
-		playing = false
-	}
-	
-	update: func {
-		if (!playing) return
+	update: func (dt:Double) {
+		if (!playing || frames length==0) return
 		
-		_tick += 1
-		if (_tick == speed) {
-			
-			if (_currentIndex + 1 == frames length) {
-				if (looping) {
-					_currentIndex = 0
-				}
+		t += dt
+		if (t > speed) {
+			if (index + 1 == frames length) {
+				if (looping) index = 0
 			} else {
-				_currentIndex += 1
+				index += 1
 			}
-			_tick = 0
+			t -= speed
 		}
+		frame = frames[index]
 	}
 }
