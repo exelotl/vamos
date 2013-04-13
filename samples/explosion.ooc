@@ -21,7 +21,7 @@ SCREEN_W := const 800
 SCREEN_H := const 480
 
 main: func (argc:Int, argv:CString*) {
-	engine := Engine new(SCREEN_W, SCREEN_H, 60)
+	engine := Engine new(SCREEN_W, SCREEN_H)
 	engine start(PlayState new())
 }
 

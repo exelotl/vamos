@@ -13,7 +13,8 @@ Engine: class {
 	
 	running := false
 	width, height: Int
-	frameRate:Double = 60
+	scale:UInt
+	frameRate:Double
 	dt:Double
 	
 	window: SdlWindow
@@ -39,7 +40,7 @@ Engine: class {
 		set (v) { SDL setWindowFullscreen(window, v) }
 	}
 	
-	init: func (=width, =height, =frameRate) {
+	init: func (=width, =height, =scale, =frameRate) {
 		
 		if (engine)
 			raise("Only one engine can exist at a time!")
@@ -50,9 +51,14 @@ Engine: class {
 			"Vamos",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
-			width, height, SDL_WINDOW_SHOWN)
+			width*scale, height*scale, SDL_WINDOW_SHOWN)
+		
+		(width) toString() println()
+		(scale) toString() println()
+		(width*scale) toString() println()
 		
 		renderer = SDL createRenderer(window, -1, SDL_RENDERER_ACCELERATED)
+		SDL renderSetLogicalSize(renderer, width, height)
 		
 		engine = this
 		
@@ -60,6 +66,13 @@ Engine: class {
 		mixer = Mixer new() .open()
 		stateManager = StateManager new()
 		stateRenderer = StateRenderer new(window, renderer)
+	}
+	
+	init: func ~defaultFramerate (.width, .height, .scale) {
+		init(width, height, frameRate, 1)
+	}
+	init: func ~defaultScale (.width, .height) {
+		init(width, height, 1, 60)
 	}
 	
 	
