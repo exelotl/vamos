@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"loop",
+				"looping"
+			],
+			[
+				"fra",
+				"frameHeight"
+			],
+			[
 				"SDL",
 				"SDL_TEXTUREACCESS_STREAMING"
 			],
@@ -506,14 +514,6 @@
 			[
 				"canvasc",
 				"canvasClusterY"
-			],
-			[
-				"canvasC",
-				"canvasClusterX"
-			],
-			[
-				"T",
-				"TILE_SIZE"
 			]
 		]
 	},
@@ -536,20 +536,23 @@
 			}
 		},
 		{
+			"contents": "use vamos\nimport vamos/[Engine, State, Entity]\n\nmain: func (argc:Int, argv:CString*) {\n	\n	// Create a 500x400 window, running at 60fps\n	engine := Engine new(500, 400, 60)\n	\n}\n\n\nLogo: class extends Entity {\n	init: func {\n		\n	}\n}\n\nScreen: class extends State {\n	\n}",
+			"file": "samples/hello.ooc",
+			"file_size": 0,
+			"file_write_time": 130102866879517662,
+			"settings":
+			{
+				"buffer_size": 262,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "source/vamos/graphics/TileMap.ooc",
 			"settings":
 			{
 				"buffer_size": 1747,
 				"line_ending": "Windows",
 				"name": "import ./Image"
-			}
-		},
-		{
-			"file": ".gitignore",
-			"settings":
-			{
-				"buffer_size": 64,
-				"line_ending": "Windows"
 			}
 		},
 		{
@@ -596,7 +599,55 @@
 			"file": "source/vamos/Util.ooc",
 			"settings":
 			{
-				"buffer_size": 913,
+				"buffer_size": 1948,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Dev/ooc/rock/sdk/lang/VarArgs.ooc",
+			"settings":
+			{
+				"buffer_size": 4712,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "source/vamos/graphics/Anim.ooc",
+			"settings":
+			{
+				"buffer_size": 861,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "source/vamos/graphics/SpriteFont.ooc",
+			"settings":
+			{
+				"buffer_size": 684,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 1567,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Dev/SDL-2.0.0-6754/sdl2-config",
+			"settings":
+			{
+				"buffer_size": 1294,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "vamos.use",
+			"settings":
+			{
+				"buffer_size": 123,
 				"line_ending": "Windows"
 			}
 		}
@@ -625,6 +676,20 @@
 	},
 	"file_history":
 	[
+		"/D/Dev/ooc/vamos/samples/tests.ooc",
+		"/D/Dropbox/Obscurity/oo.lua/oo.lua",
+		"/D/Dropbox/Obscurity/oo.lua/README.md",
+		"/D/Dropbox/Obscurity/oo.lua/Signal.lua",
+		"/D/Games/Nifflas/Knytt Underground/World/Dialog/Wangleflower.ini",
+		"/D/Dev/ooc/tests/launcher/launcher.ooc",
+		"/D/Dev/ooc/vamos/.gitignore",
+		"/D/Dev/node-webkit-v0.4.2-win-ia32/chatnoir/package.json",
+		"/D/Dev/powder117_src/mobref.h",
+		"/D/Dev/powder117_src/mobref.cpp",
+		"/D/Games/powder/Geckojsc.txt",
+		"/D/Dev/powder117_src/rooms/crypt.map",
+		"/C/Windows/inf/setupapi.dev.log",
+		"/C/Windows/inf/setupapi.app.log",
 		"/D/Dev/ooc/roguelike/source/PlayState.ooc",
 		"/D/Dropbox/NovahTek/webcontent/content/Chemistry.html",
 		"/D/Dev/sdl/hello_sdl2/main.c",
@@ -738,21 +803,7 @@
 		"/D/Dropbox/bl_shared/Gameinsky/Digwars classes.txt",
 		"/D/Dropbox/discord/src/zonetypes/BasicDesert.lua",
 		"/D/Dropbox/discord/src/zonetypes/BasicDirtLayer.lua",
-		"/D/Dropbox/discord/src/zonetypes/BasicGround.lua",
-		"/D/Dropbox/discord/src/zonetypes/DirtStoneBoundary.lua",
-		"/D/Dropbox/discord/src/zonetypes/ForestZone.lua",
-		"/D/Dropbox/discord/src/zonetypes/SimpleStoneCave.lua",
-		"/D/Dropbox/discord/src/zonetypes/TemplateZoneType.lua",
-		"/D/Dropbox/discord/src/zonetypes/TownZone.lua",
-		"/D/Games/Terraria/TShock_class_wars/tshock/20120727170802.log",
-		"/D/Games/Terraria/TShock_class_wars/reload_world3.bat",
-		"/C/Users/Jeremy/Documents/My Games/Terraria/reload_world3.bat",
-		"/D/Dropbox/discord/src/Signal.lua",
-		"/D/Dropbox/discord/src/display/WorldDrawer.lua",
-		"/D/Games/Terraria/TShock_class_wars/tshock/tshock.sqlite",
-		"/D/Dropbox/discord/src/util/LibCompress.lua",
-		"/D/Dropbox/discord/src/util/Timer.lua",
-		"/D/Dropbox/discord/_misc/love-demos-0.8.0/particles/main.lua"
+		"/D/Dropbox/discord/src/zonetypes/BasicGround.lua"
 	],
 	"find":
 	{
@@ -760,9 +811,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
+			"D:\\Dev\\ooc\\vamos\\source",
 			"D:\\Dropbox\\NovahTek\\EclipseWorkspace",
 			"D:\\Dropbox\\NovahTek\\EclipseWorkspace\\MyEd",
 			"D:\\Dev\\SDL-1.2.15\\extension-libraries\\SDL_gfx-2.0.24\\",
@@ -791,6 +843,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Double",
+			"img",
+			"+",
+			"func",
+			"Double",
+			"print",
+			"tick",
+			"frameRate",
+			"size",
+			"length",
+			"_tick",
+			"_currentIndex",
 			"destRect",
 			"vSize",
 			"hSize",
@@ -906,19 +970,7 @@
 			"set = \"(.+)\",",
 			"setter",
 			"TileSetters",
-			"ChunkMap",
-			"GenMath",
-			"Random",
-			")",
-			"accel.y",
-			"accel.x",
-			"speed.x",
-			"speed.y",
-			"Speed.y",
-			"Speed.x",
-			"Chunk.HEIGHT",
-			"Chunk.WIDTH",
-			"\\n*\\n"
+			"ChunkMap"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1061,6 +1113,7 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1119,6 +1172,33 @@
 				},
 				{
 					"buffer": 2,
+					"file": "samples/hello.ooc",
+					"settings":
+					{
+						"buffer_size": 262,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								177,
+								181
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "source/vamos/graphics/TileMap.ooc",
 					"settings":
 					{
@@ -1129,8 +1209,8 @@
 						"selection":
 						[
 							[
-								968,
-								968
+								993,
+								993
 							]
 						],
 						"settings":
@@ -1138,33 +1218,6 @@
 							"auto_name": "import ./Image",
 							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 210.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": ".gitignore",
-					"settings":
-					{
-						"buffer_size": 64,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								64,
-								64
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1220,7 +1273,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 294.0,
+						"translation.y": 462.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1291,8 +1344,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								448,
+								395
 							]
 						],
 						"settings":
@@ -1311,21 +1364,188 @@
 					"file": "source/vamos/Util.ooc",
 					"settings":
 					{
-						"buffer_size": 913,
+						"buffer_size": 1948,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								715,
-								715
+								906,
+								906
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
 							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 271.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/D/Dev/ooc/rock/sdk/lang/VarArgs.ooc",
+					"settings":
+					{
+						"buffer_size": 4712,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								851,
+								851
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 462.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "source/vamos/graphics/Anim.ooc",
+					"settings":
+					{
+						"buffer_size": 861,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								661,
+								661
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "source/vamos/graphics/SpriteFont.ooc",
+					"settings":
+					{
+						"buffer_size": 684,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								483,
+								483
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ooc.tmbundle/Syntaxes/ooc.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "README.md",
+					"settings":
+					{
+						"buffer_size": 1567,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1567,
+								1567
+							]
+						],
+						"settings":
+						{
+							"rulers":
+							[
+								80
+							],
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"wrap_width": 80
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "/D/Dev/SDL-2.0.0-6754/sdl2-config",
+					"settings":
+					{
+						"buffer_size": 1294,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1007,
+								1007
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 378.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "vamos.use",
+					"settings":
+					{
+						"buffer_size": 123,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								122,
+								122
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1381,6 +1601,14 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"spritefont",
+				"source/vamos/graphics/SpriteFont.ooc"
+			],
+			[
+				"util",
+				"source/vamos/Util.ooc"
+			],
 			[
 				"staeren",
 				"source/vamos/display/StateRenderer.ooc"

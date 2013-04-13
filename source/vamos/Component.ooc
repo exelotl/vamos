@@ -10,6 +10,7 @@ Component: abstract class {
 	active := true
 	
 	init: func (=name)
+	init: func ~noName
 	
 	reset: func
 	added: func

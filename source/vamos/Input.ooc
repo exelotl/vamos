@@ -31,16 +31,26 @@ Input: class {
 		_hasInitialized = true
 	}
 	
-	keyHeld: static func(sym:Int) -> Bool {
+	held: static func(sym:Int) -> Bool {
 		return keyStates[SDL getScancodeFromKey(sym)]
 	}
-	keyPressed: static func(sym:Int) -> Bool {
+	pressed: static func(sym:Int) -> Bool {
 		scancode := SDL getScancodeFromKey(sym)
 		return keyStates[scancode] && !prevKeyStates[scancode]
 	}
-	keyReleased: static func(sym:Int) -> Bool {
+	released: static func(sym:Int) -> Bool {
 		scancode := SDL getScancodeFromKey(sym)
 		return prevKeyStates[scancode] && !keyStates[scancode]
+	}
+	
+	held: static func ~byName (name:String) -> Bool {
+		held(SDL getKeyFromName(name))
+	}
+	pressed: static func ~byName (name:String) -> Bool {
+		pressed(SDL getKeyFromName(name))
+	}
+	released: static func ~byName (name:String) -> Bool {
+		released(SDL getKeyFromName(name))
 	}
 	
 	update: static func () {

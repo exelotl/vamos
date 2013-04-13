@@ -17,7 +17,7 @@ Anim: class extends SpriteMap {
 	}
 	
 	play: func (=frames, fps:Double) {
-		if (index+1 == frames length)
+		if (index+1 >= frames length)
 			index = 0
 		speed = 1/fps
 		playing = looping = true
@@ -35,8 +35,9 @@ Anim: class extends SpriteMap {
 		
 		t += dt
 		if (t > speed) {
-			if (index + 1 == frames length) {
+			if (index + 1 >= frames length) {
 				if (looping) index = 0
+				else playing = false
 			} else {
 				index += 1
 			}

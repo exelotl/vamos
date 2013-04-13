@@ -32,6 +32,31 @@ clamp: inline func~int (n, min, max: Int) -> Int {
 	(n < min) ? min : ((n > max) ? max : n)
 }
 
+max: inline func~array (arr:Double[]) -> Double {
+	n: Double = 0.0
+	for (i in 0..arr length)
+		if (arr[i] > n) n = arr[i]
+	return n
+}
+min: inline func~array (arr:Double[]) -> Double {
+	n: Double = 0.0
+	for (i in 0..arr length)
+		if (arr[i] < n) n = arr[i]
+	return n
+}
+max: inline func~intArray (arr:Int[]) -> Int {
+	n := 0
+	for (i in 0..arr length)
+		if (arr[i] > n) n = arr[i]
+	return n
+}
+min: inline func~intArray (arr:Int[]) -> Int {
+	n := 0
+	for (i in 0..arr length)
+		if (arr[i] < n) n = arr[i]
+	return n
+}
+
 extend Double {
 	clamp: inline func(min, max: This) -> This { clamp(this, min, max) }
 	sign: inline func -> This { sign(this) }

@@ -7,11 +7,21 @@ import vamos/graphics/SpriteMap
 
 SpriteFont: class extends SpriteMap {
 	
-	text := ""
+	text:String
 	
-	init: func (=text) {
-		super("vamos/font_temp.png", 8, 10)
+	init: func (path:String, charW, charH:UInt, =text) {
+		super(path, charW, charH)
 	}
+	
+	init: func ~noText (path:String, charW, charH:UInt) {
+		init(path, charW, charH, "")
+	}
+	
+	init: func ~defaultFont (=text) {
+		init("vamos/font_temp.png", 8, 10, text)
+	}
+	
+	set: func (=text)
 	
 	draw: func (renderer:StateRenderer, entity:Entity, x, y: Double) {
 		count := 0

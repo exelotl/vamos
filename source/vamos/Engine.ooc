@@ -34,6 +34,10 @@ Engine: class {
 		get { SDL getWindowTitle(window) as String}
 		set (v) { SDL setWindowTitle(window, v) }
 	}
+	fullscreen: Bool {
+		get
+		set (v) { SDL setWindowFullscreen(window, v) }
+	}
 	
 	init: func (=width, =height, =frameRate) {
 		

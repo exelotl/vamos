@@ -68,6 +68,11 @@ State: class {
 		removed add(e)
 	}
 	
+	removeAll: inline func {
+		for (e in entities)
+			remove(e)
+	}
+	
 	getFirst: func ~ofType(type:String) -> Entity {
 		list:ArrayList<Entity> = types[type]
 		if (!list) return null
