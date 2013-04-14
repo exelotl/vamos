@@ -1,7 +1,7 @@
 use sdl2
 import sdl2/Core
-import vamos/[Util, Input, AssetCache, State, StateManager]
-import vamos/display/[StateRenderer, Bitmap]
+import vamos/[Util, Input, AssetCache, Scene, SceneManager]
+import vamos/display/[SceneRenderer, Bitmap]
 import vamos/audio/Mixer
 
 engine:Engine
@@ -21,13 +21,13 @@ Engine: class {
 	renderer: SdlRenderer
 	assets: AssetCache
 	mixer: Mixer
-	stateManager: StateManager
-	stateRenderer: StateRenderer
-	state: State {
-		get { stateManager state }
+	sceneManager: SceneManager
+	sceneRenderer: SceneRenderer
+	scene: Scene {
+		get { sceneManager scene }
 		set (s) {
-			stateManager state = s
-			stateRenderer state = s
+			sceneManager scene = s
+			sceneRenderer scene = s
 		}
 	}
 	
@@ -53,10 +53,6 @@ Engine: class {
 			SDL_WINDOWPOS_UNDEFINED,
 			width*scale, height*scale, SDL_WINDOW_SHOWN)
 		
-		(width) toString() println()
-		(scale) toString() println()
-		(width*scale) toString() println()
-		
 		renderer = SDL createRenderer(window, -1, SDL_RENDERER_ACCELERATED)
 		SDL renderSetLogicalSize(renderer, width, height)
 		
@@ -64,8 +60,8 @@ Engine: class {
 		
 		assets = AssetCache new(this)
 		mixer = Mixer new() .open()
-		stateManager = StateManager new()
-		stateRenderer = StateRenderer new(window, renderer)
+		sceneManager = SceneManager new()
+		sceneRenderer = SceneRenderer new(window, renderer)
 	}
 	
 	init: func ~defaultFramerate (.width, .height, .scale) {
@@ -76,8 +72,8 @@ Engine: class {
 	}
 	
 	
-	start: func (state:State) {
-		this state = state
+	start: func (scene:Scene) {
+		this scene = scene
 		
 		running = true
 		Input onQuit add(|| running = false)
@@ -93,8 +89,8 @@ Engine: class {
 		startTime := time()
 		
 		Input update()
-		stateManager update(dt)
-		stateRenderer draw()
+		sceneManager update(dt)
+		sceneRenderer draw()
 		mixer update(dt)
 		
 		sleep(1.0/frameRate - dt)

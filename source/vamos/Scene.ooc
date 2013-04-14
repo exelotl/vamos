@@ -7,7 +7,7 @@ import vamos/display/Color
 /**
  * Contains and updates entites
  */
-State: class {
+Scene: class {
 	
 	created := false
 	
@@ -19,8 +19,8 @@ State: class {
 	
 	onEntityAdded := Signal<Entity> new()
 	onEntityRemoved := Signal<Entity> new()
-	onEnter := Signal<State> new()
-	onLeave := Signal<State> new()
+	onEnter := Signal<Scene> new()
+	onLeave := Signal<Scene> new()
 	
 	color:Color
 	
@@ -44,7 +44,7 @@ State: class {
 		for (e in removed) {
 			e removed()
 			onEntityRemoved dispatch(e)
-			e state = null
+			e scene = null
 			entities remove(e)
 			_removeType(e)
 		}
@@ -53,7 +53,7 @@ State: class {
 		for (e in added) {
 			entities add(e)
 			_addType(e)
-			e state = this
+			e scene = this
 			e added()
 			onEntityAdded dispatch(e)
 		}

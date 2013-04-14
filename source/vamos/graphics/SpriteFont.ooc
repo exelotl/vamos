@@ -2,7 +2,7 @@ use sdl2
 import sdl2/Core
 
 import vamos/[Graphic, Entity, AssetCache]
-import vamos/display/[Texture, StateRenderer]
+import vamos/display/[Texture, SceneRenderer]
 import vamos/graphics/SpriteMap
 
 SpriteFont: class extends SpriteMap {
@@ -23,7 +23,7 @@ SpriteFont: class extends SpriteMap {
 	
 	set: func (=text)
 	
-	draw: func (renderer:StateRenderer, entity:Entity, x, y: Double) {
+	draw: func (renderer:SceneRenderer, entity:Entity, x, y: Double) {
 		count := 0
 		for (c in text) {
 			frame = c as Int

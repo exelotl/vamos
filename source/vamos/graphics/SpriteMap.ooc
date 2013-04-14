@@ -3,7 +3,7 @@ import sdl2/Core
 import math
 
 import vamos/[Graphic, Entity, AssetCache]
-import vamos/display/[Texture, StateRenderer]
+import vamos/display/[Texture, SceneRenderer]
 import vamos/graphics/Image
 
 SpriteMap: class extends Image {
@@ -27,7 +27,7 @@ SpriteMap: class extends Image {
 		_framesWide = texture width / frameWidth
 	}
 	
-	draw: func (renderer:StateRenderer, entity:Entity, x, y: Double) {
+	draw: func (renderer:SceneRenderer, entity:Entity, x, y: Double) {
 		dstRect w = frameWidth * scale
 		dstRect h = frameHeight * scale
 		super(renderer, entity, x, y)

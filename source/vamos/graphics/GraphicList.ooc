@@ -1,6 +1,6 @@
 import structs/ArrayList
 import vamos/[Graphic, Entity]
-import vamos/display/StateRenderer
+import vamos/display/SceneRenderer
 
 GraphicList: class extends Graphic {
 
@@ -21,7 +21,7 @@ GraphicList: class extends Graphic {
 		for (graphic in graphics) graphic update(dt)
 	}
 	
-	draw: func (renderer: StateRenderer, entity: Entity, x, y: Double) {
+	draw: func (renderer: SceneRenderer, entity: Entity, x, y: Double) {
 		for (graphic in graphics) graphic draw(renderer, entity, x, y)
 	}
 	

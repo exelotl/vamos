@@ -1,4 +1,4 @@
-import vamos/[Entity, State]
+import vamos/[Entity, Scene]
 
 // Used for shared behaviour in entities
 
@@ -6,7 +6,7 @@ Component: abstract class {
 	
 	name: String
 	entity: Entity
-	state: State { get {entity state} }
+	scene: Scene { get {entity scene} }
 	active := true
 	
 	init: func (=name)

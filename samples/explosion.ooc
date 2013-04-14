@@ -5,14 +5,14 @@
  *
  * This sample demonstrates:
  *  - Creating a window with a caption
- *  - Creating a state and filling it with entities
+ *  - Creating a scene and filling it with entities
  *  - Handling keyboard input
  *  - Basic hitbox collision
  *  - Using a Component class to share behaviour between entities
  */
 
 use vamos
-import vamos/[Engine, State, Entity, Component, Input]
+import vamos/[Engine, Scene, Entity, Component, Input]
 import vamos/graphics/FilledRect
 import vamos/masks/Hitbox
 import math/Random
@@ -22,10 +22,10 @@ SCREEN_H := const 480
 
 main: func (argc:Int, argv:CString*) {
 	engine := Engine new(SCREEN_W, SCREEN_H)
-	engine start(PlayState new())
+	engine start(PlayScene new())
 }
 
-PlayState: class extends State {
+PlayScene: class extends Scene {
 	create: func {
 		engine caption = "Explosion!"
 		add(Player new(40, 40))
@@ -35,7 +35,7 @@ PlayState: class extends State {
 	update: func (dt:Double) {
 		super(dt)
 		if (Input pressed("space"))
-			engine state = PlayState new()
+			engine scene = PlayScene new()
 	}
 }
 
@@ -56,7 +56,7 @@ Player: class extends Entity {
 		if (Input held("left"))  x -= speed * dt
 		if (Input held("right")) x += speed * dt
 		if (collide("enemy")) {
-			state remove(this)
+			scene remove(this)
 			engine caption = "PRESS SPACE TO RESTART"
 		}
 	}

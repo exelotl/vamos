@@ -1,7 +1,7 @@
 use sdl2
 import sdl2/Core
 import vamos/[Engine, Graphic, Entity]
-import vamos/display/[Texture, StateRenderer, Color]
+import vamos/display/[Texture, SceneRenderer, Color]
 
 Image: class extends Graphic {
 	
@@ -46,7 +46,7 @@ Image: class extends Graphic {
 		origin y = srcRect h * 0.5
 	}
 	
-	draw: func (renderer:StateRenderer, entity:Entity, x, y: Double) {
+	draw: func (renderer:SceneRenderer, entity:Entity, x, y: Double) {
 		dstRect x = x + this x - origin x
 		dstRect y = y + this y - origin y
 		texture color = color

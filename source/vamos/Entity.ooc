@@ -1,21 +1,21 @@
 import structs/[ArrayList, List]
-import vamos/[State, Component, Graphic, Mask]
+import vamos/[Scene, Component, Graphic, Mask]
 
 Entity: class {
 	
 	x, y:Double
 	
-	state: State
+	scene: Scene
 	graphic: Graphic
 	components := ArrayList<Component> new()
 	
 	type: String {
 		get
 		set (t) {
-			if (state)  {
-				state _removeType(this)
+			if (scene)  {
+				scene _removeType(this)
 				type = t
-				state _addType(this)
+				scene _addType(this)
 			} else {
 				type = t
 			}
@@ -99,7 +99,7 @@ Entity: class {
 	
 	collide: func (type:String, x, y:Double) -> Entity {
 		if (mask == null) return null
-		list:List<Entity> = state types get(type)
+		list:List<Entity> = scene types get(type)
 		if (list == null) return null
 		
 		(oldX, oldY) := (this x, this y)
@@ -113,7 +113,7 @@ Entity: class {
 	
 	collide: func ~noPos (type:String) -> Entity {
 		if (mask == null) return null
-		list:List<Entity> = state types get(type)
+		list:List<Entity> = scene types get(type)
 		if (list == null) return null
 		return collideCheck(list)
 	}
@@ -125,7 +125,7 @@ Entity: class {
 		
 		e:Entity
 		for (t in types) {
-			list:List<Entity> = state types get(t)
+			list:List<Entity> = scene types get(t)
 			if (list && (e = collideCheck(list))) break
 		}
 		
@@ -138,7 +138,7 @@ Entity: class {
 		
 		e:Entity
 		for (t in types) {
-			list:List<Entity> = state types get(t)
+			list:List<Entity> = scene types get(t)
 			if (list && (e = collideCheck(list))) return e
 		}
 		null

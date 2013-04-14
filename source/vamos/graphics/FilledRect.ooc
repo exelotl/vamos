@@ -1,7 +1,7 @@
 use sdl2
 import sdl2/Core
 import vamos/[Graphic, Entity]
-import vamos/display/[StateRenderer, Color]
+import vamos/display/[SceneRenderer, Color]
 
 FilledRect: class extends Graphic {
 	
@@ -27,7 +27,7 @@ FilledRect: class extends Graphic {
 		y = rect h * -0.5
 	}
 	
-	draw: func (renderer:StateRenderer, entity:Entity, x, y: Double) {
+	draw: func (renderer:SceneRenderer, entity:Entity, x, y: Double) {
 		rect x = x
 		rect y = y
 		renderer fillRect(rect&, color r, color g, color b, color a)

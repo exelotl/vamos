@@ -2,17 +2,17 @@ use sdl2
 import sdl2/Core
 import structs/ArrayList
 
-import vamos/[State, Entity]
+import vamos/[Scene, Entity]
 import vamos/display/Texture
 import vamos/Graphic
 
 import vamos/AssetCache
 
-// handles the rendering of all the entities in a state
+// handles the rendering of all the entities in a scene
 
-StateRenderer: class {
+SceneRenderer: class {
 	
-	state: State
+	scene: Scene
 	window: SdlWindow
 	target: SdlRenderer
 	
@@ -41,13 +41,13 @@ StateRenderer: class {
 	
 	
 	draw: func {
-		if (!state) return
+		if (!scene) return
 		
-		col := state color
+		col := scene color
 		SDL setRenderDrawColor(target, col r, col g, col b, col a)
 		SDL renderClear(target)
 		
-		for (e in state entities) {
+		for (e in scene entities) {
 			graphic := e graphic
 			if (graphic != null && graphic visible) {
 				x := e x + graphic x - camX * graphic scrollX
