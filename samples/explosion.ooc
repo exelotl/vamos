@@ -13,7 +13,7 @@
 
 use vamos
 import vamos/[Engine, Scene, Entity, Component, Input]
-import vamos/graphics/FilledRect
+import vamos/graphics/[FilledRect, Label]
 import vamos/masks/Hitbox
 import math/Random
 
@@ -21,22 +21,44 @@ SCREEN_W := const 800
 SCREEN_H := const 480
 
 main: func (argc:Int, argv:CString*) {
+	// create the window
 	engine := Engine new(SCREEN_W, SCREEN_H)
+	engine caption = "Explosion!"
+	
+	// start the main loop
 	engine start(PlayScene new())
 }
 
 PlayScene: class extends Scene {
+	
+	speed:Double = 1
+	score:Double = 0
+	label: Label = Label new("font.png", 6, 10, "")
+	running := true
+	
 	create: func {
-		engine caption = "Explosion!"
 		add(Player new(40, 40))
 		for (i in 0..100) add(Enemy new(390, 240))
+		//label scale = 2
+		addGraphic(label, 2, 2)
 	}
 	
 	update: func (dt:Double) {
-		super(dt)
-		if (Input pressed("space"))
+		super(dt*speed)
+		if (running) {
+			score += dt
+			label set(score toString())
+		} else if (Input pressed("space")) {
 			engine scene = PlayScene new()
+		}
 	}
+	
+	gameOver: func {
+		running = false
+		speed = 0.4
+		label text = "Game Over! \nYou scored: %.2f \nPress SPACE to restart." format(score)
+	}
+	
 }
 
 Player: class extends Entity {
@@ -57,7 +79,7 @@ Player: class extends Entity {
 		if (Input held("right")) x += speed * dt
 		if (collide("enemy")) {
 			scene remove(this)
-			engine caption = "PRESS SPACE TO RESTART"
+			scene as PlayScene gameOver()
 		}
 	}
 }
@@ -85,11 +107,14 @@ Enemy: class extends Entity {
 // Reusable behaviour, move entities to the other side when they cross the edge of the screen.
 
 Wrapping: class extends Component {
-	init: func
+	box:Hitbox
+	added: func {
+		box = entity mask as Hitbox
+	}
 	update: func (dt:Double) {
-		if (entity x < -20) entity x = SCREEN_W
-		if (entity x > SCREEN_W) entity x = -20
-		if (entity y < -20) entity y = SCREEN_H
-		if (entity y > SCREEN_H) entity y = -20
+		if (entity x < -box width) entity x = SCREEN_W
+		if (entity x > SCREEN_W) entity x = -box width
+		if (entity y < -box width) entity y = SCREEN_H
+		if (entity y > SCREEN_H) entity y = -box width
 	}
 }

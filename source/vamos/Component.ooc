@@ -9,8 +9,8 @@ Component: abstract class {
 	scene: Scene { get {entity scene} }
 	active := true
 	
-	init: func (=name)
-	init: func ~noName
+	init: func
+	//init: func ~name (=name)
 	
 	reset: func
 	added: func

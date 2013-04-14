@@ -1,5 +1,5 @@
 import structs/[ArrayList, LinkedList, HashMap]
-import vamos/[Engine, Signal, Entity]
+import vamos/[Engine, Signal, Entity, Graphic]
 import vamos/display/Color
 
 // TODO: replace the current ArrayList system with linked lists
@@ -68,9 +68,16 @@ Scene: class {
 		removed add(e)
 	}
 	
-	removeAll: inline func {
+	removeAll: func {
 		for (e in entities)
 			remove(e)
+	}
+	
+	addGraphic: func (graphic:Graphic, x, y:Double) -> Entity {
+		e := Entity new(x, y)
+		e graphic = graphic
+		add(e)
+		return e
 	}
 	
 	getFirst: func ~ofType(type:String) -> Entity {

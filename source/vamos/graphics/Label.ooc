@@ -5,16 +5,12 @@ import vamos/[Graphic, Entity, AssetCache]
 import vamos/display/[Texture, SceneRenderer]
 import vamos/graphics/SpriteMap
 
-SpriteFont: class extends SpriteMap {
+Label: class extends SpriteMap {
 	
 	text:String
 	
 	init: func (path:String, charW, charH:UInt, =text) {
 		super(path, charW, charH)
-	}
-	
-	init: func ~noText (path:String, charW, charH:UInt) {
-		init(path, charW, charH, "")
 	}
 	
 	init: func ~defaultFont (=text) {
@@ -24,11 +20,17 @@ SpriteFont: class extends SpriteMap {
 	set: func (=text)
 	
 	draw: func (renderer:SceneRenderer, entity:Entity, x, y: Double) {
-		count := 0
+		dx:Double = 0
+		dy:Double = 0
 		for (c in text) {
-			frame = c as Int
-			super(renderer, entity, x + count * frameWidth, y)
-			count += 1
+			if (c == '\n') {
+				dx = 0
+				dy += frameHeight * scale
+			} else {
+				frame = c as Int
+				super(renderer, entity, x + dx, y + dy)
+				dx += frameWidth * scale
+			}
 		}
 	}
 }
