@@ -22,11 +22,11 @@ SCREEN_H := const 480
 
 main: func (argc:Int, argv:CString*) {
 	// create the window
-	engine := Engine new(SCREEN_W, SCREEN_H)
-	engine caption = "Explosion!"
+	vamos = Engine new(SCREEN_W, SCREEN_H)
+	vamos caption = "Explosion!"
 	
 	// start the main loop
-	engine start(PlayScene new())
+	vamos start(PlayScene new())
 }
 
 PlayScene: class extends Scene {
@@ -49,8 +49,10 @@ PlayScene: class extends Scene {
 			score += dt
 			label set(score toString())
 		} else if (Input pressed("space")) {
-			engine scene = PlayScene new()
+			vamos scene = PlayScene new()
 		}
+		if (Input pressed("escape"))
+			vamos quit()
 	}
 	
 	gameOver: func {
@@ -69,7 +71,7 @@ Player: class extends Entity {
 		mask = Hitbox new(10, 10)
 		graphic = FilledRect new(10, 10, 0xffffffff)
 		type = "player"
-		addComp(Wrapping new())
+		add(Wrapping new())
 	}
 	
 	update: func (dt:Double) {
@@ -95,7 +97,7 @@ Enemy: class extends Entity {
 		
 		velX = Random randInt(-100, 100)
 		velY = Random randInt(-100, 100)
-		addComp(Wrapping new())
+		add(Wrapping new())
 	}
 	
 	update: func (dt:Double) {

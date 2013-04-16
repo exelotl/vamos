@@ -18,7 +18,7 @@ TileMap: class extends Graphic {
 	w, h: Int  // size in tiles
 	
 	init: func ~path (path:String, .w, .h, tileW, tileH:UInt) {
-		init(engine assets getTexture(path), w, h, tileW, tileH)
+		init(vamos assets getTexture(path), w, h, tileW, tileH)
 	}
 	
 	init: func ~texture (=source, =w, =h, tileW, tileH:UInt) {
@@ -36,6 +36,16 @@ TileMap: class extends Graphic {
 	set: inline func(x, y, val:UInt) {
 		if (x < w && y < h)
 			data[x + y*w] = val
+	}
+	
+	/**
+	 * Fill the map with data, using a function that returns the tile value at each given coordinate
+	 */
+	load: func (f:Func(Int, Int)->UInt) {
+		data = gc_malloc(w * h * UInt size)
+		for (x in 0..w)
+			for (y in 0..h)
+				set(x, y, f(x, y))
 	}
 	
 	draw: func (renderer:SceneRenderer, entity:Entity, x, y:Double) {

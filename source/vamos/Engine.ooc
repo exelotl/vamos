@@ -4,7 +4,7 @@ import vamos/[Util, Input, AssetCache, Scene, SceneManager]
 import vamos/display/[SceneRenderer, Bitmap]
 import vamos/audio/Mixer
 
-engine:Engine
+vamos:Engine
 
 /**
  * Manages the various subsystems, runs the main loop
@@ -42,7 +42,7 @@ Engine: class {
 	
 	init: func (=width, =height, =scale, =frameRate) {
 		
-		if (engine)
+		if (vamos)
 			raise("Only one engine can exist at a time!")
 		
 		SDL init(SDL_INIT_EVERYTHING)
@@ -53,10 +53,14 @@ Engine: class {
 			SDL_WINDOWPOS_UNDEFINED,
 			width*scale, height*scale, SDL_WINDOW_SHOWN)
 		
+		display:SdlDisplayMode
+		SDL getDesktopDisplayMode(0, display&)
+		SDL setWindowDisplayMode(window, display&)
+		
 		renderer = SDL createRenderer(window, -1, SDL_RENDERER_ACCELERATED)
 		SDL renderSetLogicalSize(renderer, width, height)
 		
-		engine = this
+		vamos = this
 		
 		assets = AssetCache new(this)
 		mixer = Mixer new() .open()
@@ -65,7 +69,7 @@ Engine: class {
 	}
 	
 	init: func ~defaultFramerate (.width, .height, .scale) {
-		init(width, height, frameRate, 1)
+		init(width, height, scale, 60)
 	}
 	init: func ~defaultScale (.width, .height) {
 		init(width, height, 1, 60)
@@ -76,7 +80,7 @@ Engine: class {
 		this scene = scene
 		
 		running = true
-		Input onQuit add(|| running = false)
+		Input onQuit add(||quit())
 		
 		while (running) {
 			update()
@@ -112,10 +116,14 @@ Engine: class {
 		SDL setWindowIcon(window, bitmap surface)
 	}
 	
+	quit: func {
+		running = false
+	}
+	
 	cleanup: func {
 		mixer close()
 		assets free()
-		engine = null
+		vamos = null
 		SDL destroyRenderer(renderer)
 		SDL destroyWindow(window)
 		SDL quit()

@@ -21,10 +21,10 @@ AudioSource: abstract class {
 	update: func (dt:Double)
 	
 	addSelf: func {
-		engine mixer add(this)
+		vamos mixer add(this)
 	}
 	removeSelf: func {
-		engine mixer remove(this)
+		vamos mixer remove(this)
 	}
 	
 	_removed := false

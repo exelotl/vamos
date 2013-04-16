@@ -19,7 +19,7 @@ Sound: class extends AudioSource {
 	onComplete := VoidSignal new()
 	
 	init: func (key:String) {
-		sample = engine assets getSample(key)
+		sample = vamos assets getSample(key)
 	}
 	
 	play: func (restart := true) {

@@ -14,8 +14,8 @@ Scene: class {
 	entities := ArrayList<Entity> new()
 	types := HashMap<String, ArrayList<Entity>> new()
 	classes := HashMap<Class, ArrayList<Entity>> new()
-	added := ArrayList<Entity> new()
-	removed := ArrayList<Entity> new()
+	addList := ArrayList<Entity> new()
+	removeList := ArrayList<Entity> new()
 	
 	onEntityAdded := Signal<Entity> new()
 	onEntityRemoved := Signal<Entity> new()
@@ -41,31 +41,31 @@ Scene: class {
 			e update(dt)
 		}
 		
-		for (e in removed) {
+		for (e in removeList) {
 			e removed()
 			onEntityRemoved dispatch(e)
 			e scene = null
 			entities remove(e)
-			_removeType(e)
+			_removeFromType(e)
 		}
-		removed clear()
+		removeList clear()
 		
-		for (e in added) {
+		for (e in addList) {
 			entities add(e)
-			_addType(e)
+			_addToType(e)
 			e scene = this
 			e added()
 			onEntityAdded dispatch(e)
 		}
-		added clear()
+		addList clear()
 	}
 	
 	add: inline func (e:Entity) {
-		added add(e)
+		addList add(e)
 	}
 	
 	remove: inline func (e:Entity) {
-		removed add(e)
+		removeList add(e)
 	}
 	
 	removeAll: func {
@@ -92,7 +92,7 @@ Scene: class {
 		return list first() as T
 	}
 	
-	_addType: func (e:Entity) {
+	_addToType: func (e:Entity) {
 		if (e type == "") return
 		list:ArrayList<Entity> = types[e type]
 		if (!list) {
@@ -102,7 +102,7 @@ Scene: class {
 		list add(e)
 	}
 	
-	_removeType: func (e:Entity) {
+	_removeFromType: func (e:Entity) {
 		list:ArrayList<Entity> = types[e type]
 		if (!list) return
 		list remove(e)

@@ -13,9 +13,9 @@ Entity: class {
 		get
 		set (t) {
 			if (scene)  {
-				scene _removeType(this)
+				scene _removeFromType(this)
 				type = t
-				scene _addType(this)
+				scene _addToType(this)
 			} else {
 				type = t
 			}
@@ -33,6 +33,7 @@ Entity: class {
 	
 	init: func
 	init: func ~pos(=x, =y)
+	init: func ~full(=x, =y, =graphic, =mask)
 	
 	update: func (dt:Double)
 	
@@ -50,50 +51,41 @@ Entity: class {
 		}
 	}
 	
-	addComp: func (comp:Component) {
+	add: func (comp:Component) {
 		components remove(comp)
 		components add(comp)
 		comp entity = this
 		comp added()
 	}
 	
-	addComp: func ~withName (name:String, comp:Component) {
+	add: func ~withName (name:String, comp:Component) {
 		comp name = name
-		addComp(comp)
+		add(comp)
 	}
 	
-	removeComp: func (comp:Component) {
+	remove: func (comp:Component) {
 		comp removed()
 		comp entity = null
 	}
 	
-	removeComp: func ~byName (name:String) {
-		removeComp(getComp(name))
+	remove: func ~byName (name:String) {
+		remove(get(name))
+	}
+	remove: func ~byClass (class:Class) {
+		remove(get(class) as Component)
 	}
 	
-	getComp: func ~byName (name:String) -> Component {
-		for (comp in components) {
+	get: func ~byName (name:String) -> Component {
+		for (comp in components)
 			if (comp name == name)
 				return comp
-		}
-		return null
+		null
 	}
 	
-	getComp: func ~byClass (class:Class) -> Component {
-		for (comp in components) {
-			if (comp class == class)
-				return comp
-		}
-		return null
-	}
-	
-	collideCheck: func (list:List<Entity>) -> Entity {
-		for (e in list) {
-		 	if (e != this && e mask != null \
-		 	&& (mask check(e mask) || e mask check(mask)) ) {
-		 		return e
-		 	}
-		}
+	get: func ~byClass <T> (T:Class) -> T {
+		for (comp in components)
+			if (comp class == T)
+				return comp as T
 		null
 	}
 	
@@ -105,7 +97,7 @@ Entity: class {
 		(oldX, oldY) := (this x, this y)
 		(this x, this y) = (x, y)
 		
-		e := collideCheck(list)
+		e := collideList(list)
 		
 		(this x, this y) = (oldX, oldY)
 		return e
@@ -115,7 +107,7 @@ Entity: class {
 		if (mask == null) return null
 		list:List<Entity> = scene types get(type)
 		if (list == null) return null
-		return collideCheck(list)
+		return collideList(list)
 	}
 	
 	collide: func ~types (types:ArrayList<String>, x, y:Double) -> Entity {
@@ -126,7 +118,7 @@ Entity: class {
 		e:Entity
 		for (t in types) {
 			list:List<Entity> = scene types get(t)
-			if (list && (e = collideCheck(list))) break
+			if (list && (e = collideList(list))) break
 		}
 		
 		(this x, this y) = (oldX, oldY)
@@ -139,7 +131,17 @@ Entity: class {
 		e:Entity
 		for (t in types) {
 			list:List<Entity> = scene types get(t)
-			if (list && (e = collideCheck(list))) return e
+			if (list && (e = collideList(list))) return e
+		}
+		null
+	}
+	
+	collideList: func (list:List<Entity>) -> Entity {
+		for (e in list) {
+		 	if (e != this && e mask != null \
+		 	&& (mask check(e mask) || e mask check(mask)) ) {
+		 		return e
+		 	}
 		}
 		null
 	}

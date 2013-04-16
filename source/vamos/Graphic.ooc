@@ -11,4 +11,9 @@ Graphic: abstract class {
 	
 	update: func (dt: Double)
 	draw: abstract func (renderer: SceneRenderer, entity:Entity, x, y: Double)
+	
+	position: inline func (x, y:Double) {
+		this x = x
+		this y = y
+	}
 }

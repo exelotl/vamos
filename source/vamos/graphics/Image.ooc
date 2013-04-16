@@ -29,7 +29,7 @@ Image: class extends Graphic {
 	angle:Double
 	
 	init: func~path (key:String) {
-		texture = engine assets getTexture(key)
+		texture = vamos assets getTexture(key)
 		init(texture)
 	}
 	

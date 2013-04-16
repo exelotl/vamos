@@ -29,20 +29,20 @@ Texture: class {
 	
 	init: func ~fromSurface (surface:SdlSurface*) {
 		assertRendererExists()
-		data = SDL createTextureFromSurface(engine renderer, surface)
+		data = SDL createTextureFromSurface(vamos renderer, surface)
 		width = surface@ w
 		height = surface@ h
 	}
 	
 	init: func ~empty (=width, =height, streaming := false) {
 		assertRendererExists()
-		fmt := SDL getWindowPixelFormat(engine window)
+		fmt := SDL getWindowPixelFormat(vamos window)
 		access := streaming ? SDL_TEXTUREACCESS_STREAMING : SDL_TEXTUREACCESS_STATIC
-		data = SDL createTexture (engine renderer, fmt, access, width, height)
+		data = SDL createTexture (vamos renderer, fmt, access, width, height)
 	}
 	
 	assertRendererExists: func {
-		if (!engine || !engine renderer)
+		if (!vamos || !vamos renderer)
 			raise("Can't create texture when engine is not initialised!")
 	}
 	
