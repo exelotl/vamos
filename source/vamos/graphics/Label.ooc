@@ -2,7 +2,7 @@ use sdl2
 import sdl2/Core
 
 import vamos/[Graphic, Entity, AssetCache]
-import vamos/display/[Texture, SceneRenderer]
+import vamos/display/[Texture, Screen]
 import vamos/graphics/SpriteMap
 
 Label: class extends SpriteMap {
@@ -19,7 +19,7 @@ Label: class extends SpriteMap {
 	
 	set: func (=text)
 	
-	draw: func (renderer:SceneRenderer, entity:Entity, x, y: Double) {
+	draw: func (screen:Screen, entity:Entity, x, y: Double) {
 		dx:Double = 0
 		dy:Double = 0
 		for (c in text) {
@@ -28,7 +28,7 @@ Label: class extends SpriteMap {
 				dy += frameHeight * scale
 			} else {
 				frame = c as Int
-				super(renderer, entity, x + dx, y + dy)
+				super(screen, entity, x + dx, y + dy)
 				dx += frameWidth * scale
 			}
 		}

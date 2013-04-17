@@ -1,7 +1,7 @@
 use sdl2
 import sdl2/Core
 import vamos/[Util, Input, AssetCache, Scene, SceneManager]
-import vamos/display/[SceneRenderer, Bitmap]
+import vamos/display/[Screen, Bitmap]
 import vamos/audio/Mixer
 
 vamos:Engine
@@ -22,12 +22,12 @@ Engine: class {
 	assets: AssetCache
 	mixer: Mixer
 	sceneManager: SceneManager
-	sceneRenderer: SceneRenderer
+	screen: Screen
 	scene: Scene {
 		get { sceneManager scene }
 		set (s) {
 			sceneManager scene = s
-			sceneRenderer scene = s
+			screen scene = s
 		}
 	}
 	
@@ -65,7 +65,7 @@ Engine: class {
 		assets = AssetCache new(this)
 		mixer = Mixer new() .open()
 		sceneManager = SceneManager new()
-		sceneRenderer = SceneRenderer new(window, renderer)
+		screen = Screen new(window, renderer)
 	}
 	
 	init: func ~defaultFramerate (.width, .height, .scale) {
@@ -94,7 +94,7 @@ Engine: class {
 		
 		Input update()
 		sceneManager update(dt)
-		sceneRenderer draw()
+		screen draw()
 		mixer update(dt)
 		
 		sleep(1.0/frameRate - dt)

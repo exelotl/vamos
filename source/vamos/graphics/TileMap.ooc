@@ -2,7 +2,7 @@ use sdl2
 import sdl2/Core
 import vamos/[Engine, Util, AssetCache, Graphic]
 import vamos/Entity
-import vamos/display/[SceneRenderer, Texture]
+import vamos/display/[Screen, Texture]
 
 // TODO finish this
 // TODO split rendering into chunks, so that large map sizes don't break.
@@ -48,7 +48,7 @@ TileMap: class extends Graphic {
 				set(x, y, f(x, y))
 	}
 	
-	draw: func (renderer:SceneRenderer, entity:Entity, x, y:Double) {
+	draw: func (renderer:Screen, entity:Entity, x, y:Double) {
 		if (!data) return
 		
 		startX:Int = (renderer camX - entity x) / dstRect w

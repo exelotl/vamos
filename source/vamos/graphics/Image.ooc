@@ -1,7 +1,7 @@
 use sdl2
 import sdl2/Core
 import vamos/[Engine, Graphic, Entity]
-import vamos/display/[Texture, SceneRenderer, Color]
+import vamos/display/[Texture, Screen, Color]
 
 Image: class extends Graphic {
 	
@@ -46,14 +46,14 @@ Image: class extends Graphic {
 		origin y = srcRect h * 0.5
 	}
 	
-	draw: func (renderer:SceneRenderer, entity:Entity, x, y: Double) {
-		dstRect x = x + this x - origin x
-		dstRect y = y + this y - origin y
+	draw: func (screen:Screen, entity:Entity, x, y: Double) {
+		dstRect x = x - origin x
+		dstRect y = y - origin y
 		texture color = color
 		if (angle == 0) {
-			renderer drawTexture(texture, srcRect&, dstRect&)
+			screen drawTexture(texture, srcRect&, dstRect&)
 		} else {
-			renderer drawTexture(texture, srcRect&, dstRect&, angle, null, SDL_FLIP_NONE)
+			screen drawTexture(texture, srcRect&, dstRect&, angle, null, SDL_FLIP_NONE)
 		}
 	}
 	

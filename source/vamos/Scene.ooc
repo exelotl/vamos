@@ -1,6 +1,5 @@
 import structs/[ArrayList, LinkedList, HashMap]
 import vamos/[Engine, Signal, Entity, Graphic]
-import vamos/display/Color
 
 // TODO: replace the current ArrayList system with linked lists
 
@@ -21,8 +20,6 @@ Scene: class {
 	onEntityRemoved := Signal<Entity> new()
 	onEnter := Signal<Scene> new()
 	onLeave := Signal<Scene> new()
-	
-	color:Color
 	
 	// Don't create entities or load assets here.
 	init: func {

@@ -28,19 +28,12 @@ Grid: class extends Mask {
 		}
 	}
 	
-	// local left = e.x + box.x
-	// local top = e.y + box.y
-	// local right = left + box.width
-	// local bottom = top + box.height
-	// left, top = math.floor((left-1)/TILE_SIZE) + 1, math.floor((top-1)/TILE_SIZE) + 1
-	// right, bottom = math.floor((right-1)/TILE_SIZE) + 1, math.floor((bottom-1)/TILE_SIZE) + 1
-	
 	checkHitbox: func (box:Hitbox) -> Bool {
 		if (!data) return false
-		left:Int = box entity x + box x
-		top:Int = box entity y + box y
-		right:Int = (left + box width) / tileW
-		bottom:Int = (top + box height) / tileH
+		left:Int = box entity x + box x - entity x
+		top:Int = box entity y + box y - entity y
+		right:Int = (left + box width - 1) / tileW
+		bottom:Int = (top + box height - 1) / tileH
 		left /= tileW
 		top /= tileH
 		

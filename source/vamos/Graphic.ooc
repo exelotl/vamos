@@ -1,5 +1,5 @@
 import vamos/Entity
-import vamos/display/SceneRenderer
+import vamos/display/Screen
 
 Graphic: abstract class {
 	
@@ -10,7 +10,7 @@ Graphic: abstract class {
 	scrollY: Double = 1.0
 	
 	update: func (dt: Double)
-	draw: abstract func (renderer: SceneRenderer, entity:Entity, x, y: Double)
+	draw: abstract func (screen:Screen, entity:Entity, x, y: Double)
 	
 	position: inline func (x, y:Double) {
 		this x = x

@@ -3,14 +3,14 @@ import sdl2/Core
 import structs/ArrayList
 
 import vamos/[Scene, Entity]
-import vamos/display/Texture
+import vamos/display/[Texture, Color]
 import vamos/Graphic
 
 import vamos/AssetCache
 
 // handles the rendering of all the entities in a scene
 
-SceneRenderer: class {
+Screen: class {
 	
 	scene: Scene
 	window: SdlWindow
@@ -18,7 +18,7 @@ SceneRenderer: class {
 	
 	format: UInt32 // pixel format
 	width, height: UInt
-	
+	color: Color
 	camX, camY:Double
 	
 	init: func (=window, =target) {
@@ -43,8 +43,7 @@ SceneRenderer: class {
 	draw: func {
 		if (!scene) return
 		
-		col := scene color
-		SDL setRenderDrawColor(target, col r, col g, col b, col a)
+		SDL setRenderDrawColor(target, color r, color g, color b, color a)
 		SDL renderClear(target)
 		
 		for (e in scene entities) {

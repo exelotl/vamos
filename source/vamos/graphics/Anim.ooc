@@ -16,12 +16,11 @@ Anim: class extends SpriteMap {
 		index = 0
 	}
 	
-	play: func (=frames, fps:Double) {
-		if (index+1 >= frames length)
-			index = 0
-		speed = 1/fps
-		playing = looping = true
-		t = 0
+	play: func (=frames, =fps) {
+		if (index >= frames length) index = 0
+		if (t > speed) t = 0
+		playing = true
+		looping = true
 	}
 	
 	once: func { looping = false }
@@ -29,6 +28,12 @@ Anim: class extends SpriteMap {
 	reset: func { index = 0 }
 	pause: func { playing = false }
 	stop: func { this reset() .pause() }
+	stop: func~frame (=frame) { stop() }
+	
+	fps: Double {
+		get { 1/speed }
+		set(v) { speed = 1/v }
+	}
 	
 	update: func (dt:Double) {
 		if (!playing || frames length==0) return
@@ -45,4 +50,11 @@ Anim: class extends SpriteMap {
 		}
 		frame = frames[index]
 	}
+}
+
+operator== (a, b:Int[]) -> Bool {
+	a data == b data
+}
+operator!= (a, b:Int[]) -> Bool {
+	a data != b data
 }
