@@ -96,7 +96,7 @@ Scene: class {
 		null
 	}
 	
-	each: func (type:String, f:Func(e:Entity)) {
+	each: func (type:String, f:Func(Entity)) {
 		for (e in types[type])
 			f(e)
 	}
