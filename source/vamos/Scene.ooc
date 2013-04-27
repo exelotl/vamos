@@ -12,6 +12,8 @@ Scene: class {
 	
 	entities := ArrayList<Entity> new()
 	types := HashMap<String, ArrayList<Entity>> new()
+	layers := HashMap<Int, ArrayList<Entity>> new()
+	layerOrder := ArrayList<Int> new()
 	addList := ArrayList<Entity> new()
 	removeList := ArrayList<Entity> new()
 	
@@ -42,12 +44,14 @@ Scene: class {
 			onEntityRemoved dispatch(e)
 			e scene = null
 			entities remove(e)
+			_removeFromLayer(e)
 			_removeFromType(e)
 		}
 		removeList clear()
 		
 		for (e in addList) {
 			entities add(e)
+			_addToLayer(e)
 			_addToType(e)
 			e scene = this
 			e added()
@@ -92,6 +96,11 @@ Scene: class {
 		null
 	}
 	
+	each: func (type:String, f:Func(e:Entity)) {
+		for (e in types[type])
+			f(e)
+	}
+	
 	_addToType: func (e:Entity) {
 		if (e type == "") return
 		list:ArrayList<Entity> = types[e type]
@@ -104,6 +113,24 @@ Scene: class {
 	
 	_removeFromType: func (e:Entity) {
 		list:ArrayList<Entity> = types[e type]
+		if (!list) return
+		list remove(e)
+	}
+	
+	
+	_addToLayer: func (e:Entity) {
+		list:ArrayList<Entity> = layers[e layer]
+		if (!list) {
+			list = ArrayList<Entity> new()
+			layers[e layer] = list
+			layerOrder add(e layer)
+			layerOrder sort(|a,b| a>b)
+		}
+		list add(e)
+	}
+	
+	_removeFromLayer: func (e:Entity) {
+		list:ArrayList<Entity> = layers[e layer]
 		if (!list) return
 		list remove(e)
 	}

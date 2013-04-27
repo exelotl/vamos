@@ -31,6 +31,22 @@ Entity: class {
 		get { mask }
 	}
 	
+	// render priority of the entity
+	// lower layers are rendered first, so they appear behind other objects
+	layer: Int {
+		get
+		set (v) {
+			if (scene)  {
+				scene _removeFromLayer(this)
+				layer = v
+				scene _addToLayer(this)
+			} else {
+				layer = v
+			}
+		}
+	}
+	layer = 0
+	
 	init: func
 	init: func ~pos(=x, =y)
 	init: func ~full(=x, =y, =graphic, =mask)

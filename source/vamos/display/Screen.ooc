@@ -23,7 +23,7 @@ Screen: class {
 	
 	init: func (=window, =target) {
 		format = SDL getWindowPixelFormat(window)
-		SDL getWindowSize(window, width&, height&)
+		SDL renderGetLogicalSize(target, width&, height&)
 	}
 	
 	drawTexture: inline func(texture:Texture, sourceRect, destRect:SdlRect*) {
@@ -46,12 +46,15 @@ Screen: class {
 		SDL setRenderDrawColor(target, color r, color g, color b, color a)
 		SDL renderClear(target)
 		
-		for (e in scene entities) {
-			graphic := e graphic
-			if (graphic != null && graphic visible) {
-				x := e x + graphic x - camX * graphic scrollX
-				y := e y + graphic y - camY * graphic scrollY
-				graphic draw(this, e, x, y)
+		for (l in scene layerOrder) {
+			list:ArrayList<Entity> = scene layers get(l)
+			for (e in list) {
+				graphic := e graphic
+				if (graphic != null && graphic visible) {
+					x := e x + graphic x - camX * graphic scrollX
+					y := e y + graphic y - camY * graphic scrollY
+					graphic draw(this, e, x, y)
+				}
 			}
 		}
 		
