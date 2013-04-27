@@ -1,5 +1,7 @@
 use sdl2
 import sdl2/Core
+import structs/ArrayList
+import text/StringTokenizer
 import vamos/[Engine, Util, AssetCache, Graphic]
 import vamos/Entity
 import vamos/display/[Screen, Texture]
@@ -38,14 +40,35 @@ TileMap: class extends Graphic {
 			data[x + y*w] = val
 	}
 	
+	allocate: func {
+		if (!data) data = gc_malloc(w * h * UInt size)
+	}
+	
 	/**
 	 * Fill the map with data, using a function that returns the tile value at each given coordinate
 	 */
 	load: func (f:Func(Int, Int)->UInt) {
-		data = gc_malloc(w * h * UInt size)
+		allocate()
 		for (x in 0..w)
 			for (y in 0..h)
 				set(x, y, f(x, y))
+	}
+	
+	load: func ~fromString(str, colSep, rowSep: String) {
+		allocate()
+		rows := str split(rowSep)
+		for (y in 0..rows size) {
+			row := rows[y]
+			
+			if (colSep=="") {
+				for (x in 0..row size)
+					set(x, y, row[x] toInt())
+			} else {
+				vals := row split(colSep, true)
+				for (x in 0..vals size)
+					set(x, y, vals[x] toInt())
+			}
+		}
 	}
 	
 	draw: func (renderer:Screen, entity:Entity, x, y:Double) {

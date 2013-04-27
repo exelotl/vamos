@@ -12,11 +12,15 @@ Mixer: class {
 	sources := ArrayList<AudioSource> new()
 	spec: SdlAudioSpec
 	
+	open? : Bool {
+		get { _currentSources == sources }
+	}
+	
 	init: func {
 		spec freq = 44100
 		spec format = AUDIO_S16
 		spec channels = 2
-		spec samples = 512
+		spec samples = 1024
 		spec callback = _mix
 	}
 	
@@ -30,8 +34,7 @@ Mixer: class {
 	}
 	
 	close: func {
-		if (_currentSources == sources)
-			_currentSources = null
+		if (open?) _currentSources = null
 		SdlAudio close()
 	}
 	
@@ -49,6 +52,7 @@ Mixer: class {
 	}
 	
 	add: func (source:AudioSource) {
+		if (!open?) open()
 		sources add(source)
 		source mixer = this
 		source added()
@@ -76,11 +80,9 @@ _mix: static func (userdata:Pointer, stream:UInt8*, len:Int) {
 	memset(stream, 0, len)
 	
 	/*
-		WARNING - Due to differences in SDL and Boehm GC threads,
-		          the garbage collector must *not* be invoked in any
-		          mix or mixInto callbacks!
-		          Hopefully this will be fixed, but the current
-		          workaround is to not instantiate any objects in here.
+		WARNING - On some platforms SDL and ooc's garbage collector may use different thread libraries.
+		          For this reason, the mixInto methods should not allocate any garbage-collected memory!
+		          That includes instantiating objects, creating iterators (using the for loop) etc.
 	*/
 	if (_currentSources == null)
 		return

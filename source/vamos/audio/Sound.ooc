@@ -1,6 +1,6 @@
 use sdl2
 import sdl2/Audio
-import vamos/[Engine, AssetCache, Signal]
+import vamos/[Engine, Util, AssetCache, Signal]
 import vamos/audio/[Sample, Mixer, AudioSource]
 
 /**
@@ -13,7 +13,7 @@ Sound: class extends AudioSource {
 	position: UInt32
 	
 	playing := false
-	looping := false
+	looping := true
 	volume: Double = 1
 	pan: Double = 0
 	onComplete := VoidSignal new()
@@ -22,8 +22,7 @@ Sound: class extends AudioSource {
 		sample = vamos assets getSample(key)
 	}
 	
-	play: func (restart := true) {
-		if (restart) position = 0
+	play: func {
 		playing = true
 		if (!mixer) addSelf()
 	}
@@ -43,7 +42,7 @@ Sound: class extends AudioSource {
 	}
 	
 	stop: func {
-		pause()
+		playing = false
 		position = 0
 	}
 	
@@ -55,17 +54,30 @@ Sound: class extends AudioSource {
 		playing = true
 	}
 	
-	mixInto: func (stream:UInt8*, len:Int) {
-		if (playing) {
+	
+	// mixer callback stuff:
+	
+	mixInto: func (buffer:UInt8*, bufferSize:Int) {
+		
+		bufferPos := 0
+		
+		while (playing && bufferPos < bufferSize) {
+			
 			remaining := sample size - position
-			if (remaining == 0) {
-				complete()
-				return
-			}
+			len := min(remaining, bufferSize) - bufferPos
+			
 			if (remaining < len) len = remaining
 			
-			SdlAudio mix(stream, sample data[position]&, len, volume*SDL_MIX_MAXVOLUME)
+			SdlAudio mix(buffer[bufferPos]&, sample data[position]&, len, volume*SDL_MIX_MAXVOLUME)
 			position += len
+			bufferPos += len
+			
+			if (position == sample size) {
+				if (looping) position = 0
+				else complete()
+			}
 		}
 	}
+	
+	//_is
 }

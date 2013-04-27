@@ -12,12 +12,12 @@ Music: class extends AudioSource {
 	ogg: StbVorbis
 	buffer: Short*
 	playing := false
+	loop := true
 	
 	init: func(filename:String) {
 		ogg = StbVorbis openFilename(filename, error&, null)
 		if (ogg == null)
 			raise("Error in StbVorbis: " + error toString())
-		playing = true
 	}
 	
 	added: func {
@@ -28,13 +28,27 @@ Music: class extends AudioSource {
 		
 	}
 	
+	play: func {
+		if (!mixer) addSelf()
+		playing = true
+	}
+	pause: func {
+		playing = false
+	}
+	stop: func {
+		ogg seekStart()
+		playing = false
+	}
+	
 	mixInto: func (stream:UInt8*, len:Int) {
 		if (playing) {
 			ogg getSamplesInterleaved(2, buffer, len/2)	
 			SdlAudio mix(stream, buffer, len, SDL_MIX_MAXVOLUME)
 			
-			if (ogg getSampleOffset() == ogg getLengthInSamples())
-				playing = false
+			if (ogg getSampleOffset() == ogg getLengthInSamples()) {
+				if (loop) ogg seekStart()
+				else playing = false
+			}
 		}
 	}
 	

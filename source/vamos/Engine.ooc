@@ -63,7 +63,7 @@ Engine: class {
 		vamos = this
 		
 		assets = AssetCache new(this)
-		mixer = Mixer new() .open()
+		mixer = Mixer new()
 		sceneManager = SceneManager new()
 		screen = Screen new(window, renderer)
 	}

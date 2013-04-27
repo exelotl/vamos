@@ -1,3 +1,5 @@
+import structs/ArrayList
+import text/StringTokenizer
 import vamos/[Entity, Mask]
 import vamos/masks/Hitbox
 
@@ -13,12 +15,33 @@ Grid: class extends Mask {
 		height = h * tileH
 	}
 	
+	allocate: func {
+		if (!data) data = gc_malloc(w * h * UInt size)
+	}
+	
 	get: inline func(x, y:UInt) -> UInt {
 		(x < w && y < h) ? data[x + y*w] : 0
 	}
 	set: inline func(x, y, val:UInt) {
 		if (x < w && y < h)
 			data[x + y*w] = val
+	}
+	
+	load: func ~fromString(str, colSep, rowSep: String) {
+		allocate()
+		rows := str split(rowSep)
+		for (y in 0..rows size) {
+			row := rows[y]
+			
+			if (colSep=="") {
+				for (x in 0..row size)
+					set(x, y, row[x] toInt())
+			} else {
+				vals := row split(colSep, true)
+				for (x in 0..vals size)
+					set(x, y, vals[x] toInt())
+			}
+		}
 	}
 	
 	check: func (other:Mask) -> Bool {

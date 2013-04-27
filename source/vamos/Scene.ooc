@@ -12,7 +12,6 @@ Scene: class {
 	
 	entities := ArrayList<Entity> new()
 	types := HashMap<String, ArrayList<Entity>> new()
-	classes := HashMap<Class, ArrayList<Entity>> new()
 	addList := ArrayList<Entity> new()
 	removeList := ArrayList<Entity> new()
 	
@@ -84,9 +83,13 @@ Scene: class {
 	}
 	
 	getFirst: func ~ofClass <T> (T:Class) -> T {
-		list:ArrayList<Entity> = classes[T]
-		if (!list) return null
-		return list first() as T
+		for (e in entities)
+			if (e class == T)
+				return e as T
+		for (e in addList)
+			if (e class == T)
+				return e as T
+		null
 	}
 	
 	_addToType: func (e:Entity) {
