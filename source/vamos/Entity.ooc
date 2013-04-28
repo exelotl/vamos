@@ -24,9 +24,9 @@ Entity: class {
 	type = ""
 	
 	mask: Mask {
-		set (v) {
-			mask = v
-			mask entity = this
+		set (m) {
+			if (m) m entity = this
+			mask = m
 		}
 		get { mask }
 	}
@@ -35,13 +35,13 @@ Entity: class {
 	// lower layers are rendered first, so they appear behind other objects
 	layer: Int {
 		get
-		set (v) {
+		set (l) {
 			if (scene)  {
 				scene _removeFromLayer(this)
-				layer = v
+				layer = l
 				scene _addToLayer(this)
 			} else {
-				layer = v
+				layer = l
 			}
 		}
 	}

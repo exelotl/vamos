@@ -28,7 +28,7 @@ Tween: class extends Component {
 				timer = duration
 				playing = false
 				complete()
-				entity removeComp(this)
+				entity remove(this)
 			}
 			f(timer/duration)
 		}

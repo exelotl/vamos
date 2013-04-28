@@ -19,6 +19,8 @@ TileMap: class extends Graphic {
 	width, height: Int // size in pixels
 	w, h: Int  // size in tiles
 	
+	firstValue := 1
+	
 	init: func ~path (path:String, .w, .h, tileW, tileH:UInt) {
 		init(vamos assets getTexture(path), w, h, tileW, tileH)
 	}
@@ -87,8 +89,8 @@ TileMap: class extends Graphic {
 			
 			for (y in 0..screenH) {
 				val := get(x+startX, y+startY)
-				if (val) {
-					val -= 1
+				if (val >= firstValue) {
+					val -= firstValue
 					srcRect x = val % sourceW * dstRect w
 					srcRect y = (val / sourceW) * dstRect h
 					renderer drawTexture(source, srcRect&, dstRect&)

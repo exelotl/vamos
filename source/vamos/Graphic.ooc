@@ -12,6 +12,10 @@ Graphic: abstract class {
 	update: func (dt: Double)
 	draw: abstract func (screen:Screen, entity:Entity, x, y: Double)
 	
+	assign: func (e:Entity) {
+		e graphic = this
+	}
+	
 	position: inline func (x, y:Double) {
 		this x = x
 		this y = y

@@ -1,5 +1,5 @@
 import structs/[ArrayList, LinkedList, HashMap]
-import vamos/[Engine, Signal, Entity, Graphic]
+import vamos/[Engine, Signal, Entity, Graphic, Component]
 
 // TODO: replace the current ArrayList system with linked lists
 
@@ -22,6 +22,10 @@ Scene: class {
 	onEnter := Signal<Scene> new()
 	onLeave := Signal<Scene> new()
 	
+	// for timers, tweens and stuff that apply to the whole scene
+	compHolder := Entity new()
+	compHolder scene = this
+	
 	// Don't create entities or load assets here.
 	init: func {
 		
@@ -33,6 +37,7 @@ Scene: class {
 	}
 	
 	update: func (dt:Double) {
+		
 		for (e in entities) {
 			e updateComps(dt)
 			e updateGraphic(dt)
@@ -58,15 +63,29 @@ Scene: class {
 			onEntityAdded dispatch(e)
 		}
 		addList clear()
+		
+		//compHolder updateComps(dt)
 	}
 	
-	add: inline func (e:Entity) {
+	//on: func~trigger(event:String, data:Object) {
+	//	
+	//}
+	//on: func~bind(event:String, )
+	
+	add: func (e:Entity) {
 		addList add(e)
 	}
 	
-	remove: inline func (e:Entity) {
+	remove: func (e:Entity) {
 		removeList add(e)
 	}
+	
+	//addComp: func (c:Component) {
+	//	compHolder add(c)
+	//}
+	//removeComp: func (c:Component) {
+	//	compHolder remove(c)
+	//}
 	
 	removeAll: func {
 		for (e in entities)
@@ -82,7 +101,7 @@ Scene: class {
 	
 	getFirst: func ~ofType(type:String) -> Entity {
 		list:ArrayList<Entity> = types[type]
-		if (!list) return null
+		if (!list || list size == 0) return null
 		return list first()
 	}
 	
@@ -97,7 +116,7 @@ Scene: class {
 	}
 	
 	each: func (type:String, f:Func(Entity)) {
-		for (e in types[type])
+		for (e in types[type] as ArrayList<Entity>)
 			f(e)
 	}
 	

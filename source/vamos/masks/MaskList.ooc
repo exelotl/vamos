@@ -1,11 +1,12 @@
 import structs/ArrayList
+import vamos/Mask
 
 MaskList: class extends Mask {
 
 	masks: ArrayList<Mask>
 
 	init: func (=masks)
-	init: func (arr:Mask[]) {
+	init: func~rawArray (arr:Mask[]) {
 		init(arr as ArrayList<Mask>)
 	}
 	init: func~empty {
@@ -13,9 +14,11 @@ MaskList: class extends Mask {
 	}
 	
 	check: func (other: Mask) -> Bool {
-		for (mask in masks)
+		for (mask in masks) {
+			mask entity = entity
 			if (mask active)
 				if (mask check(other)) return true
+		}
 		return false
 	}
 	
@@ -24,7 +27,7 @@ MaskList: class extends Mask {
 	}
 	
 	remove: func (mask: Mask) {
-		graphics remove(mask)
+		masks remove(mask)
 	}
 	
 	removeAt: func (index: Int) {
@@ -35,4 +38,5 @@ MaskList: class extends Mask {
 	removeAll: func () {
 		masks clear()
 	}
+	
 }

@@ -11,6 +11,15 @@ Image: class extends Graphic {
 	srcRect: SdlRect
 	origin: SdlPoint
 	
+	width: UInt {
+		get { srcRect w }
+		set (v) { srcRect w = v }
+	}
+	height: UInt {
+		get { srcRect h }
+		set (v) { srcRect h = v }
+	}
+	
 	color := (255,255,255,255) as Color
 	alpha: UInt8 {
 		get { color a }
