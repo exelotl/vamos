@@ -115,9 +115,9 @@ Scene: class {
 		null
 	}
 	
-	each: func (type:String, f:Func(Entity)) {
+	each: func (type:String, f:Func(Entity)->Bool) {
 		for (e in types[type] as ArrayList<Entity>)
-			f(e)
+			if (!f(e)) return
 	}
 	
 	_addToType: func (e:Entity) {

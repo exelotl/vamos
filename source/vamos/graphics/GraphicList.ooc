@@ -22,7 +22,7 @@ GraphicList: class extends Graphic {
 	}
 	
 	draw: func (screen:Screen, entity: Entity, x, y: Double) {
-		for (graphic in graphics) graphic draw(screen, entity, x, y)
+		for (graphic in graphics) graphic draw(screen, entity, x+graphic x, y+graphic y)
 	}
 	
 	add: func (graphic: Graphic) {
