@@ -58,6 +58,8 @@ TileMap: class extends Graphic {
 	
 	load: func ~fromString(str, colSep, rowSep: String) {
 		allocate()
+		if (_isWhitespace(str))
+			return
 		rows := str split(rowSep)
 		for (y in 0..rows size) {
 			row := rows[y]
@@ -100,4 +102,12 @@ TileMap: class extends Graphic {
 		}
 	}
 		
+}
+
+_isWhitespace: static func (s:String) -> Bool {
+	for (c in s) {
+		if (c != ' ' && c != '\r' && c != '\t' && c != '\n')
+			return false
+	}
+	true
 }

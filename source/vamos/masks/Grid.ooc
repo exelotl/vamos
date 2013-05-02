@@ -29,6 +29,8 @@ Grid: class extends Mask {
 	
 	load: func ~fromString(str, colSep, rowSep: String) {
 		allocate()
+		if (_isWhitespace(str))
+			return
 		rows := str split(rowSep)
 		for (y in 0..rows size) {
 			row := rows[y]
@@ -66,4 +68,12 @@ Grid: class extends Mask {
 		false
 	}
 	
+}
+
+_isWhitespace: static func (s:String) -> Bool {
+	for (c in s) {
+		if (c != ' ' && c != '\r' && c != '\t' && c != '\n')
+			return false
+	}
+	true
 }
