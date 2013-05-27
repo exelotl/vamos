@@ -101,7 +101,7 @@ Entity: class {
 	get: func ~byClass <T> (T:Class) -> T {
 		for (comp in components)
 			if (comp class == T)
-				return comp as T
+				return comp
 		null
 	}
 	
@@ -169,4 +169,37 @@ Entity: class {
 	
 	removed: func // called when removed from world
 	added: func   // called when added to world
+
+	/**
+	 * Override this to take action upon receiving a Signal
+	 * (generally by using a match statement)
+	 */
+	handle: func <T> (sig:Signal<T>)
+
+
+	broadcast: func <T> (sig:Signal<T>) {
+		if (scene handle(sig)) scene broadcast(sig)
+	}
+	broadcast: func ~type <T> (t:String, sig:Signal<T>) {
+		if (scene handle(sig)) scene broadcast(t, sig)
+	}
+	broadcast: func ~types <T> (arr:String[], sig:Signal<T>) {
+		if (scene handle(sig)) scene broadcast(arr, sig)
+	}
+	broadcast: func ~list <T> (list:List<Entity>, sig:Signal<T>) {
+		if (scene handle(sig)) scene broadcast(list, sig)
+	}
+
+	broadcast: func ~shorthand <T> (name:String, data:T) {
+		broadcast(Signal<T> new(this, name, data))
+	}
+	broadcast: func ~shorthandType <T> (t, name:String, data:T) {
+		broadcast(t, Signal<T> new(this, name, data))
+	}
+	broadcast: func ~shorthandTypes <T> (arr:String[], name:String, data:T) {
+		broadcast(arr, Signal<T> new(this, name, data))
+	}
+	broadcast: func ~shorthandList <T> (list:List<Entity>, name:String, data:T) {
+		broadcast(list, Signal<T> new(this, name, data))
+	}
 }

@@ -80,7 +80,7 @@ Engine: class {
 		this scene = scene
 		
 		running = true
-		Input onQuit add(||quit())
+		Input onQuit = func { quit() }
 		
 		while (running) {
 			update()

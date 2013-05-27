@@ -6,12 +6,12 @@ SceneManager: class {
 		get
 		set (newScene) {
 			if (scene != null) {
-				scene onLeave dispatch(newScene)
+				scene leave(newScene)
 			}
 			if (!newScene created) {
 				newScene create()
 			}
-			newScene onEnter dispatch(scene)
+			newScene enter(scene)
 			scene = newScene
 		}
 	}

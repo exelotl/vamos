@@ -1,6 +1,6 @@
 use sdl2
 import sdl2/Audio
-import vamos/[Engine, Util, AssetCache, Signal]
+import vamos/[Engine, Util, AssetCache]
 import vamos/audio/[Sample, Mixer, AudioSource]
 
 /**
@@ -16,7 +16,6 @@ Sound: class extends AudioSource {
 	looping := true
 	volume: Double = 1
 	pan: Double = 0
-	onComplete := VoidSignal new()
 	
 	init: func (key:String) {
 		sample = vamos assets getSample(key)

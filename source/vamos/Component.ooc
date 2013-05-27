@@ -1,7 +1,8 @@
 import vamos/[Entity, Scene]
 
-// Used for shared behaviour in entities
-
+/**
+ * Used for shared behaviour in entities
+ */
 Component: abstract class {
 	
 	name: String
@@ -10,7 +11,6 @@ Component: abstract class {
 	active := true
 	
 	init: func
-	//init: func ~name (=name)
 	
 	reset: func
 	added: func

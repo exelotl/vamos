@@ -1,7 +1,5 @@
-import structs/[ArrayList, LinkedList, HashMap]
-import vamos/[Engine, Signal, Entity, Graphic, Component]
-
-// TODO: replace the current ArrayList system with linked lists
+import structs/[List, ArrayList, HashMap]
+import vamos/[Engine, Entity, Graphic, Component]
 
 /**
  * Contains and updates entites
@@ -17,24 +15,18 @@ Scene: class {
 	addList := ArrayList<Entity> new()
 	removeList := ArrayList<Entity> new()
 	
-	onEntityAdded := Signal<Entity> new()
-	onEntityRemoved := Signal<Entity> new()
-	onEnter := Signal<Scene> new()
-	onLeave := Signal<Scene> new()
-	
 	// for timers, tweens and stuff that apply to the whole scene
 	compHolder := Entity new()
 	compHolder scene = this
 	
-	// Don't create entities or load assets here.
-	init: func {
-		
-	}
+	/// Don't create entities or load assets here, the engine might not be ready.
+	init: func
 	
 	/// Called when a renderer is available, and entities/graphics can be initialised
-	create: func {
-		
-	}
+	create: func
+
+	enter: func (prev:Scene)
+	leave: func (next:Scene)
 	
 	update: func (dt:Double) {
 		
@@ -46,7 +38,6 @@ Scene: class {
 		
 		for (e in removeList) {
 			e removed()
-			onEntityRemoved dispatch(e)
 			e scene = null
 			entities remove(e)
 			_removeFromLayer(e)
@@ -60,17 +51,11 @@ Scene: class {
 			_addToType(e)
 			e scene = this
 			e added()
-			onEntityAdded dispatch(e)
 		}
 		addList clear()
 		
 		//compHolder updateComps(dt)
 	}
-	
-	//on: func~trigger(event:String, data:Object) {
-	//	
-	//}
-	//on: func~bind(event:String, )
 	
 	add: func (e:Entity) {
 		addList add(e)
@@ -120,6 +105,48 @@ Scene: class {
 			if (!f(e)) return
 	}
 	
+
+	/**
+	 * You can override this to intercept signals from entities, take global
+	 * action on them, or prevent them from being broadcasted to other entities.
+	 */
+	handle: func <T> (sig:Signal<T>) -> Bool {
+		true
+	}
+	
+	/**
+	 * Send a message to all entities in the scene (apart from the sender)
+	 */
+	broadcast: func <T> (sig:Signal<T>) {
+		broadcast(entities, sig)
+	}
+
+	/**
+	 * Send a message to all entities of a certain type
+	 */
+	broadcast: func ~type <T> (type:String, sig:Signal<T>) {
+		list:ArrayList<Entity> = types[type]
+		if (list) broadcast(list, sig)
+	}
+
+	/**
+	 * Send a message to all entities in an array of types
+	 */
+	broadcast: func ~types <T> (arr:String[], sig:Signal<T>) {
+		for (i in 0..arr length)
+			broadcast(arr[i], sig)
+	}
+
+	/**
+	 * Send a message to all entities in the given List
+	 */
+	broadcast: func ~list <T> (list:List<Entity>, sig:Signal<T>) {
+		for (e in list)
+			if (e != sig sender)
+				e handle(sig)
+	}
+
+
 	_addToType: func (e:Entity) {
 		if (e type == "") return
 		list:ArrayList<Entity> = types[e type]
@@ -154,4 +181,24 @@ Scene: class {
 		list remove(e)
 	}
 	
+}
+
+/**
+ * The unit of communication for the broadcast/handle system.
+ */
+Signal: class <T> {
+
+	sender: Entity
+	name: String
+	data: T
+	
+	init: func (=sender, =name, =data)
+
+	
+	/// Retrieve the data stored in the signal.
+	get: func <X> (X:Class) -> X {
+		if (!T inheritsFrom?(X))
+			raise("get(%s) called but signal data is of type %s!" format(X name, T name))
+		return data
+	}
 }

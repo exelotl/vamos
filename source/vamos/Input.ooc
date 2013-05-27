@@ -1,16 +1,10 @@
 use sdl2
 import sdl2/[Core, Event]
 import structs/ArrayList
-import vamos/Signal
 
 Input: class {
 	
-	onMouseMove := static Signal<SdlMouseMotionEvent> new()
-	onMouseDown := static Signal<SdlMouseButtonEvent> new()
-	onMouseUp := static Signal<SdlMouseButtonEvent> new()
-	onKeyDown := static Signal<Int> new()
-	onKeyUp := static Signal<Int> new()
-	onQuit := static VoidSignal new()
+	onQuit: static Func = func {}
 	
 	mouseX, mouseY: static Int
 	mouseHeld: static Bool
@@ -70,21 +64,17 @@ Input: class {
 				case SDL_MOUSEMOTION =>
 					mouseX = event motion x
 					mouseY = event motion y
-					onMouseMove dispatch(event motion)
+
 				case SDL_MOUSEBUTTONDOWN =>
 					mousePressed = true
 					mouseHeld = true
-					onMouseDown dispatch(event button)
+
 				case SDL_MOUSEBUTTONUP =>
 					mouseReleased = false
 					mouseHeld = false
-					onMouseUp dispatch(event button)
-				case SDL_KEYDOWN =>
-					onKeyDown dispatch(event key keysym sym)
-				case SDL_KEYUP =>
-					onKeyUp dispatch(event key keysym sym)
+
 				case SDL_QUIT =>
-					onQuit dispatch()
+					Input onQuit()
 			}
 		}
 		

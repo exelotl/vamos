@@ -6,9 +6,10 @@ import vamos/[Engine, Util, AssetCache, Graphic]
 import vamos/Entity
 import vamos/display/[Screen, Texture]
 
-// TODO finish this
-// TODO split rendering into chunks, so that large map sizes don't break.
-
+/**
+ * A simple tilemap implementation, just renders the tiles that are visible on the screen.
+ * Light on memory, but may have high CPU usage because the whole visible area is redrawn each frame. 
+ */
 TileMap: class extends Graphic {
 	
 	source: Texture
