@@ -31,8 +31,6 @@ self-contained, you just have to copy them to your ooc libs folder.
 
 ### Todo
 (more stuff will be added here as we think of it)
-+ Depth sorting
-+ `Grid` mask for tile collision
 + Improve performance of tilemaps
 + Get sound working (currently only music works, and it's not so simple to use)
 + Tutorials
