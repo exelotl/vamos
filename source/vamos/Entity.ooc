@@ -1,4 +1,4 @@
-import structs/[ArrayList, List]
+import structs/[ArrayList, List, HashMap]
 import vamos/[Scene, Component, Graphic, Mask]
 
 Entity: class {
@@ -167,39 +167,44 @@ Entity: class {
 		this y = y
 	}
 	
-	removed: func // called when removed from world
-	added: func   // called when added to world
-
-	/**
-	 * Override this to take action upon receiving a Signal
-	 * (generally by using a match statement)
-	 */
-	handle: func <T> (sig:Signal<T>)
-
-
-	broadcast: func <T> (sig:Signal<T>) {
-		if (scene handle(sig)) scene broadcast(sig)
+	removed: func // called when removed from scene
+	added: func   // called when added to scene
+	
+	on: func (name:String, f:Func(Signal)) -> Listener {
+		l := Listener new(f, this)
+		return scene on(name, l)
 	}
-	broadcast: func ~type <T> (t:String, sig:Signal<T>) {
-		if (scene handle(sig)) scene broadcast(t, sig)
+	
+	on: func ~noArg (name:String, f:Func) -> Listener {
+		on(name, |s| f())
 	}
-	broadcast: func ~types <T> (arr:String[], sig:Signal<T>) {
-		if (scene handle(sig)) scene broadcast(arr, sig)
+	
+	off: func (name:String, l:Listener) {
+		scene off(name, l)
 	}
-	broadcast: func ~list <T> (list:List<Entity>, sig:Signal<T>) {
-		if (scene handle(sig)) scene broadcast(list, sig)
+	off: func ~allOfName (name:String) {
+		arr := scene listeners get(name) as ArrayList<Listener>
+		if (!arr) return
+		for (l in arr) {
+			if (l entity == this)
+				scene off(name, l)
+		}
 	}
-
+	off: func ~all {
+		scene listeners keys each(|k,v| off(k as String))
+	}
+	
+	broadcast: func (sig:Signal) {
+		scene broadcast(sig)
+	}
+	
 	broadcast: func ~shorthand <T> (name:String, data:T) {
-		broadcast(Signal<T> new(this, name, data))
+		cell:Cell<T> = Cell<T> new(data)
+		broadcast(Signal new(this, name, cell))
 	}
-	broadcast: func ~shorthandType <T> (t, name:String, data:T) {
-		broadcast(t, Signal<T> new(this, name, data))
+	
+	broadcast: func ~shorthandEmpty (name:String) {
+		broadcast(Signal new(this, name, null))
 	}
-	broadcast: func ~shorthandTypes <T> (arr:String[], name:String, data:T) {
-		broadcast(arr, Signal<T> new(this, name, data))
-	}
-	broadcast: func ~shorthandList <T> (list:List<Entity>, name:String, data:T) {
-		broadcast(list, Signal<T> new(this, name, data))
-	}
+
 }

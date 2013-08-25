@@ -24,7 +24,6 @@ main: func (argc:Int, argv:CString*) {
 	// create the window
 	vamos = Engine new(SCREEN_W, SCREEN_H)
 	vamos caption = "Explosion!"
-	vamos fullscreen = true
 	
 	// start the main loop
 	vamos start(PlayScene new())
@@ -41,6 +40,11 @@ PlayScene: class extends Scene {
 		add(Player new(40, 40))
 		for (i in 0..100) add(Enemy new(390, 240))
 		addGraphic(label, 2, 2)
+		on("game_over", ||
+			running = false
+			speed = 0.4
+			label text = "Game Over!\nYou scored: %.2f\nPress SPACE to restart." format(score)
+		)
 	}
 	
 	update: func (dt:Double) {
@@ -53,18 +57,6 @@ PlayScene: class extends Scene {
 		}
 		if (Input pressed("escape"))
 			vamos quit()
-	}
-	
-	handle: func <T> (sig:Signal<T>) -> Bool {
-		match (sig name) {
-			case "game_over" =>
-				running = false
-				speed = 0.4
-				label text = "Game Over! \nYou scored: %.2f \nPress SPACE to restart." format(score)
-			case =>
-				return true
-		}
-		false
 	}
 	
 }
@@ -86,7 +78,7 @@ Player: class extends Entity {
 		if (Input held("left"))  x -= speed * dt
 		if (Input held("right")) x += speed * dt
 		if (collide("enemy")) {
-			broadcast("game_over", null)
+			broadcast("game_over")
 			scene remove(this)
 		}
 	}

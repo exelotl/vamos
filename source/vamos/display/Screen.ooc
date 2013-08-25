@@ -17,7 +17,7 @@ Screen: class {
 	target: SdlRenderer
 	
 	format: UInt32 // pixel format
-	width, height: UInt
+	width, height: Int
 	color: Color
 	camX, camY:Double
 	

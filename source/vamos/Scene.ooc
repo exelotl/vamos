@@ -14,6 +14,7 @@ Scene: class {
 	layerOrder := ArrayList<Int> new()
 	addList := ArrayList<Entity> new()
 	removeList := ArrayList<Entity> new()
+	listeners := HashMap<String, ArrayList<Listener>> new()
 	
 	// for timers, tweens and stuff that apply to the whole scene
 	compHolder := Entity new()
@@ -38,6 +39,7 @@ Scene: class {
 		
 		for (e in removeList) {
 			e removed()
+			e off()
 			e scene = null
 			entities remove(e)
 			_removeFromLayer(e)
@@ -105,48 +107,49 @@ Scene: class {
 			if (!f(e)) return
 	}
 	
-
-	/**
-	 * You can override this to intercept signals from entities, take global
-	 * action on them, or prevent them from being broadcasted to other entities.
-	 */
-	handle: func <T> (sig:Signal<T>) -> Bool {
-		true
+	
+	on: func (name:String, l:Listener) -> Listener {
+		arr:ArrayList<Listener> = listeners[name]
+		if (!arr) {
+			arr = ArrayList<Listener> new()
+			listeners[name] = arr
+		}
+		arr remove(l)
+		arr add(l)
+		return l
 	}
 	
-	/**
-	 * Send a message to all entities in the scene (apart from the sender)
-	 */
-	broadcast: func <T> (sig:Signal<T>) {
-		broadcast(entities, sig)
+	on: func ~shorthand (name:String, f:Func(Signal)) -> Listener {
+		on(name, Listener new(f, null))
 	}
-
-	/**
-	 * Send a message to all entities of a certain type
-	 */
-	broadcast: func ~type <T> (type:String, sig:Signal<T>) {
-		list:ArrayList<Entity> = types[type]
-		if (list) broadcast(list, sig)
+	
+	on: func ~shorthandNoArg (name:String, f:Func) -> Listener {
+		on(name, Listener new(|s| f(), null))
 	}
-
-	/**
-	 * Send a message to all entities in an array of types
-	 */
-	broadcast: func ~types <T> (arr:String[], sig:Signal<T>) {
-		for (i in 0..arr length)
-			broadcast(arr[i], sig)
+	
+	
+	off: func (name:String, l:Listener) {
+		arr:ArrayList<Listener> = listeners[name]
+		if (arr) arr remove(l)
 	}
-
-	/**
-	 * Send a message to all entities in the given List
-	 */
-	broadcast: func ~list <T> (list:List<Entity>, sig:Signal<T>) {
-		for (e in list)
-			if (e != sig sender)
-				e handle(sig)
+	
+	broadcast: func (sig:Signal) {
+		arr:ArrayList<Listener> = listeners[sig name]
+		if (!arr) return
+		for (l in arr) {
+			l call(sig)
+		}
 	}
-
-
+	
+	broadcast: func ~shorthand <T> (name:String, data:T) {
+		cell := Cell<T> new(data)
+		broadcast(Signal new(null, name, cell))
+	}
+	
+	broadcast: func ~shorthandEmpty <T> (name:String) {
+		broadcast(Signal new(null, name, null))
+	}
+	
 	_addToType: func (e:Entity) {
 		if (e type == "") return
 		list:ArrayList<Entity> = types[e type]
@@ -183,22 +186,30 @@ Scene: class {
 	
 }
 
-/**
- * The unit of communication for the broadcast/handle system.
- */
-Signal: class <T> {
+
+Signal: class {
 
 	sender: Entity
 	name: String
-	data: T
+	cell: Cell<Pointer>
 	
-	init: func (=sender, =name, =data)
+	init: func (=sender, =name, =cell)
 
-	
 	/// Retrieve the data stored in the signal.
-	get: func <X> (X:Class) -> X {
-		if (!T inheritsFrom?(X))
-			raise("get(%s) called but signal data is of type %s!" format(X name, T name))
-		return data
+	get: func <T> (T:Class) -> T {
+		if (!cell) return null
+		cell[T]
+	}
+}
+
+Listener: class {	
+	
+	entity: Entity
+	f: Func(Signal)
+	
+	init: func (=f, =entity)
+	
+	call: func (s:Signal) {
+		f(s)
 	}
 }
