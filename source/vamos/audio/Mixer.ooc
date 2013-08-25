@@ -16,6 +16,10 @@ Mixer: class {
 		get { _currentSources == sources }
 	}
 	
+	sampleRate: Int {
+		get { spec freq }
+	}
+	
 	init: func {
 		spec freq = 44100
 		spec format = AUDIO_S16
