@@ -37,7 +37,7 @@ Engine: class {
 	}
 	fullscreen: Bool {
 		get
-		set (v) { SDL setWindowFullscreen(window, v) }
+		set (v) { SDL setWindowFullscreen(window, v ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0) }
 	}
 	
 	init: func (=width, =height, =scale, =frameRate) {
