@@ -3,7 +3,7 @@ import vamos/[Scene, Component, Graphic, Mask]
 
 Entity: class {
 	
-	x, y:Double
+	x, y: Float
 	
 	scene: Scene
 	graphic: Graphic
@@ -51,13 +51,13 @@ Entity: class {
 	init: func ~pos(=x, =y)
 	init: func ~full(=x, =y, =graphic, =mask)
 	
-	update: func (dt:Double)
+	update: func (dt:Float)
 	
-	updateGraphic: func (dt:Double) {
+	updateGraphic: func (dt:Float) {
 		if (graphic) graphic update(dt)
 	}
 	
-	updateComps: func (dt:Double) {
+	updateComps: func (dt:Float) {
 		iter := components iterator()
 		
 		while (iter hasNext?()) {
@@ -105,7 +105,7 @@ Entity: class {
 		null
 	}
 	
-	collide: func (type:String, x, y:Double) -> Entity {
+	collide: func (type:String, x, y:Float) -> Entity {
 		if (mask == null) return null
 		list:List<Entity> = scene types get(type)
 		if (list == null) return null
@@ -126,7 +126,7 @@ Entity: class {
 		return collideList(list)
 	}
 	
-	collide: func ~types (types:ArrayList<String>, x, y:Double) -> Entity {
+	collide: func ~types (types:ArrayList<String>, x, y:Float) -> Entity {
 		if (mask == null) return null
 		(oldX, oldY) := (this x, this y)
 		(this x, this y) = (x, y)

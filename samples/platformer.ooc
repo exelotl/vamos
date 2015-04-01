@@ -100,7 +100,7 @@ PlayerAnim: class extends Anim {
 		super("player.png", 12, 12)
 		position(-3, -3)
 	}
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		if (player onFloor) {
 			if (player physics velX > 50) play(RUN_R, 30)
 			else if (player physics velX < -50) play(RUN_L, 30)
@@ -118,7 +118,7 @@ PlayerInput: class extends Component {
 	added: func {
 		player = entity as Player
 	}
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		if (Input pressed("left")) player runLeft()
 		if (Input pressed("right")) player runRight()
 		

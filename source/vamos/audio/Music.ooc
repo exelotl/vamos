@@ -15,8 +15,8 @@ Music: class extends AudioSource {
 	playing := false
 	loop := true
 	
-	volume: Double = 1
-	_volChange: Double = 0 // per audio frame (used for fading in/out)
+	volume := 1.0
+	_volChange := 0.0 // per audio frame (used for fading in/out)
 	
 	init: func(filename:String) {
 		ogg = StbVorbis openFilename(filename, error&, null)
@@ -44,11 +44,11 @@ Music: class extends AudioSource {
 		playing = false
 	}
 	
-	fadeIn: func (t:Double) {
-		_volChange = 1.0 / (t * mixer sampleRate as Double)
+	fadeIn: func (t:Float) {
+		_volChange = 1.0 / (t * mixer sampleRate as Float)
 	}
-	fadeOut: func (t:Double) {
-		_volChange = -1.0 / (t * mixer sampleRate as Double)
+	fadeOut: func (t:Float) {
+		_volChange = -1.0 / (t * mixer sampleRate as Float)
 	}
 	
 	mixInto: func (stream:UInt8*, len:Int) {
@@ -59,7 +59,7 @@ Music: class extends AudioSource {
 			
 			for (i in 0..len/2) {
 				volume = (volume + _volChange) clamp(0, 1)
-				buffer[i] = (buffer[i] as Double) * volume
+				buffer[i] = (buffer[i] as Float) * volume
 			} 
 			
 			SdlAudio mix(stream, buffer, len, SDL_MIX_MAXVOLUME)
@@ -71,7 +71,7 @@ Music: class extends AudioSource {
 		}
 	}
 	
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		
 	}
 }

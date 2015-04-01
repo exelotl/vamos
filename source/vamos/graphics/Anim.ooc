@@ -8,8 +8,8 @@ Anim: class extends SpriteMap {
 	playing := false
 	
 	index: Int
-	speed: Double
-	t: Double
+	speed: Float
+	t: Float
 	
 	init: func (path:String, .frameWidth, .frameHeight) {
 		super(path, frameWidth, frameHeight)
@@ -30,12 +30,12 @@ Anim: class extends SpriteMap {
 	stop: func { this reset() .pause() }
 	stop: func~frame (=frame) { stop() }
 	
-	fps: Double {
+	fps: Float {
 		get { 1/speed }
 		set(v) { speed = 1/v }
 	}
 	
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		if (!playing || frames length==0) return
 		
 		t += dt

@@ -27,7 +27,7 @@ FilledRect: class extends Graphic {
 		y = rect h * -0.5
 	}
 	
-	draw: func (screen:Screen, entity:Entity, x, y: Double) {
+	draw: func (screen:Screen, entity:Entity, x, y: Float) {
 		rect x = x
 		rect y = y
 		screen fillRect(rect&, color r, color g, color b, color a)

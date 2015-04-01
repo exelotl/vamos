@@ -18,7 +18,7 @@ AudioSource: abstract class {
 	removed: func
 	
 	// Do whatever you like in here!
-	update: func (dt:Double)
+	update: func (dt:Float)
 	
 	addSelf: func {
 		vamos mixer add(this)

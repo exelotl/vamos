@@ -67,13 +67,13 @@ Grid: class extends Mask {
 				if (get(x, y)) return true
 		false
 	}
-	
-}
 
-_isWhitespace: static func (s:String) -> Bool {
-	for (c in s) {
-		if (c != ' ' && c != '\r' && c != '\t' && c != '\n')
-			return false
+	_isWhitespace: static func (s:String) -> Bool {
+		for (c in s) {
+			if (c != ' ' && c != '\r' && c != '\t' && c != '\n')
+				return false
+		}
+		true
 	}
-	true
+	
 }

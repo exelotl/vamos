@@ -43,7 +43,7 @@ Mixer: class {
 	}
 	
 	/// If this causes threading problems it might need to be changed or removed
-	update: func(dt:Double) {
+	update: func(dt:Float) {
 		iter := sources iterator()
 		while (iter hasNext?()) {
 			source := iter next()
@@ -78,7 +78,7 @@ Mixer: class {
 
 _currentSources: static ArrayList<AudioSource>
 
-_mix: static func (userdata:Pointer, stream:UInt8*, len:Int) {
+_mix: func (userdata:Pointer, stream:UInt8*, len:Int) {
 	
 	// clear the audio buffer
 	memset(stream, 0, len)

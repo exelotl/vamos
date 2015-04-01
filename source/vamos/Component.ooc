@@ -16,6 +16,6 @@ Component: abstract class {
 	added: func
 	removed: func
 	
-	update: func (dt:Double)
+	update: func (dt:Float)
 	
 }

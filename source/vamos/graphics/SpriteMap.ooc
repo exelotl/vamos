@@ -27,7 +27,7 @@ SpriteMap: class extends Image {
 		_framesWide = texture width / frameWidth
 	}
 	
-	draw: func (screen:Screen, entity:Entity, x, y: Double) {
+	draw: func (screen:Screen, entity:Entity, x, y: Float) {
 		dstRect w = frameWidth * scale
 		dstRect h = frameHeight * scale
 		super(screen, entity, x, y)

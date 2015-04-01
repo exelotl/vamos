@@ -76,7 +76,7 @@ TileMap: class extends Graphic {
 		}
 	}
 	
-	draw: func (renderer:Screen, entity:Entity, x, y:Double) {
+	draw: func (renderer:Screen, entity:Entity, x, y:Float) {
 		if (!data) return
 		
 		startX:Int = (renderer camX - entity x) / dstRect w
@@ -102,13 +102,13 @@ TileMap: class extends Graphic {
 			}
 		}
 	}
-		
-}
 
-_isWhitespace: static func (s:String) -> Bool {
-	for (c in s) {
-		if (c != ' ' && c != '\r' && c != '\t' && c != '\n')
-			return false
+	_isWhitespace: static func (s:String) -> Bool {
+		for (c in s) {
+			if (c != ' ' && c != '\r' && c != '\t' && c != '\n')
+				return false
+		}
+		true
 	}
-	true
+	
 }

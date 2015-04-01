@@ -26,7 +26,7 @@ Image: class extends Graphic {
 		set (v) { color a = v }
 	}
 	
-	scale: Double {
+	scale: Float {
 		get
 		set (v) {
 			dstRect w = srcRect w * v
@@ -55,7 +55,7 @@ Image: class extends Graphic {
 		origin y = srcRect h * 0.5
 	}
 	
-	draw: func (screen:Screen, entity:Entity, x, y: Double) {
+	draw: func (screen:Screen, entity:Entity, x, y: Float) {
 		dstRect x = x - origin x
 		dstRect y = y - origin y
 		texture color = color

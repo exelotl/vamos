@@ -10,8 +10,8 @@ import ./[SurfaceLoader, Bitmap, Color]
 Texture: class {
 	
 	data: SdlTexture
-	width: Double
-	height: Double
+	width: Float
+	height: Float
 	
 	init: func ~fromPath (path:String) {
 		surface := SurfaceLoader load(path)

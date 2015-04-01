@@ -19,7 +19,7 @@ RepeatImage: class extends Image {
 		origin y = srcRect h * 0.5
 	}
 	
-	draw: func (screen:Screen, entity:Entity, x, y: Double) {
+	draw: func (screen:Screen, entity:Entity, x, y: Float) {
 		for (lx in 0..repeatX)
 			for (ly in 0..repeatY)
 				super(screen, entity, x + lx*dstRect w, y + ly*dstRect h)

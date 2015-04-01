@@ -31,10 +31,12 @@ main: func (argc:Int, argv:CString*) {
 
 PlayScene: class extends Scene {
 	
-	speed:Double = 1
-	score:Double = 0
+	speed := 1.0
+	score := 0.0
 	label: Label = Label new("font.png", 6, 10, "")
 	running := true
+	
+	init: func
 	
 	create: func {
 		add(Player new(40, 40))
@@ -47,7 +49,7 @@ PlayScene: class extends Scene {
 		)
 	}
 	
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		super(dt*speed)
 		if (running) {
 			score += dt
@@ -63,7 +65,7 @@ PlayScene: class extends Scene {
 
 Player: class extends Entity {
 	
-	speed:Double = 200.0
+	speed := 200.0
 	
 	init: func (=x, =y) {
 		mask = Hitbox new(10, 10)
@@ -72,7 +74,7 @@ Player: class extends Entity {
 		add(Wrapping new())
 	}
 	
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		if (Input held("up"))    y -= speed * dt
 		if (Input held("down"))  y += speed * dt
 		if (Input held("left"))  x -= speed * dt
@@ -85,7 +87,7 @@ Player: class extends Entity {
 }
 
 Enemy: class extends Entity {
-	velX, velY: Double
+	velX, velY: Float
 	
 	init: func (=x, =y) {
 		size := Random randInt(10, 30)
@@ -98,7 +100,7 @@ Enemy: class extends Entity {
 		add(Wrapping new())
 	}
 	
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		x += velX * dt
 		y += velY * dt
 	}
@@ -108,10 +110,11 @@ Enemy: class extends Entity {
 
 Wrapping: class extends Component {
 	box:Hitbox
+	init: func
 	added: func {
 		box = entity mask as Hitbox
 	}
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		if (entity x < -box width) entity x = SCREEN_W
 		if (entity x > SCREEN_W) entity x = -box width
 		if (entity y < -box width) entity y = SCREEN_H

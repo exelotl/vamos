@@ -3,9 +3,9 @@ import vamos/[Component, Entity]
 Timer: class extends Component {
 	
 	callback: Func
-	interval:Double = 10.0
+	interval := 10.0
 	running := false
-	_counter:Double = 0.0
+	_counter := 0.0
 	_looping := false
 	
 	init: func (=interval, =callback) {
@@ -16,7 +16,7 @@ Timer: class extends Component {
 		start()
 	}
 	
-	update: func (dt: Double) {
+	update: func (dt: Float) {
 		if (running) {
 			_counter += dt
 			if (_counter > interval) {
@@ -35,7 +35,7 @@ Timer: class extends Component {
 		_looping = false
 	}
 	
-	start: func ~withInterval (interval: Double) {
+	start: func ~withInterval (interval: Float) {
 		this interval = interval
 		start()
 	}
@@ -45,7 +45,7 @@ Timer: class extends Component {
 		_looping = true
 	}
 	
-	loop: func ~withInterval (interval: Double) {
+	loop: func ~withInterval (interval: Float) {
 		this interval = interval
 		loop()
 	}

@@ -29,7 +29,7 @@ Scene: class {
 	enter: func (prev:Scene)
 	leave: func (next:Scene)
 	
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		
 		for (e in entities) {
 			e updateComps(dt)
@@ -79,7 +79,7 @@ Scene: class {
 			remove(e)
 	}
 	
-	addGraphic: func (graphic:Graphic, x, y:Double) -> Entity {
+	addGraphic: func (graphic:Graphic, x, y:Float) -> Entity {
 		e := Entity new(x, y)
 		e graphic = graphic
 		add(e)

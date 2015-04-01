@@ -10,9 +10,9 @@ import vamos/Component
  */
 Tween: class extends Component {
 	
-	f: Func(Double)
+	f: Func(Float)
 	complete: Func = _doNothing
-	duration, timer: Double
+	duration, timer: Float
 	playing := false
 	
 	init: func (=duration, =f)
@@ -21,7 +21,7 @@ Tween: class extends Component {
 		playing = true
 	}
 	
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		if (playing) {
 			timer += dt
 			if (timer >= duration) {
@@ -40,30 +40,30 @@ Tween: class extends Component {
 	
 	//    .`
 	//  .`
-	linear: static func (a, b, mix:Double) -> Double {
+	linear: static func (a, b, mix:Float) -> Float {
 		a + (b-a) * mix
 	}
 	
 	//      .--
 	//  __.'
-	cosine: static func (a, b, mix:Double) -> Double {
+	cosine: static func (a, b, mix:Float) -> Float {
 		mix = (1 - cos(mix * PI)) * 0.5
 		a + (b-a) * mix
 	}
 	
 	//        /
 	//  ___.-`
-	cosineIn: static func (a, b, mix:Double) -> Double {
+	cosineIn: static func (a, b, mix:Float) -> Float {
 		mix = 1 - cos(mix * PI*0.5)
 		a + (b-a) * mix
 	}
 	
 	//    ,-'``
 	//   /
-	cosineOut: static func (a, b, mix:Double) -> Double {
+	cosineOut: static func (a, b, mix:Float) -> Float {
 		mix = cos((1-mix) * PI*0.5)
 		a + (b-a) * mix
 	}
+	
+	_doNothing: static func
 }
-
-_doNothing: static func

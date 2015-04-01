@@ -14,8 +14,8 @@ Sound: class extends AudioSource {
 	
 	playing := false
 	looping := true
-	volume: Double = 1
-	pan: Double = 0
+	volume := 1.0
+	pan := 0.0
 	
 	init: func (key:String) {
 		sample = vamos assets getSample(key)
@@ -29,7 +29,7 @@ Sound: class extends AudioSource {
 	//	play(volume, pan)
 	//}
 	//
-	//play: func ~withVolumeAndPan (volume, pan: Double) {
+	//play: func ~withVolumeAndPan (volume, pan: Float) {
 	//	// play the sound with the arguments
 	//	if (playing) stop()
 	//	position = 0

@@ -13,9 +13,9 @@ Engine: class {
 	
 	running := false
 	width, height: Int
-	scale:UInt
-	frameRate:Double
-	dt:Double
+	scale: UInt
+	frameRate: Float
+	dt: Float
 	
 	window: SdlWindow
 	renderer: SdlRenderer
@@ -102,12 +102,12 @@ Engine: class {
 	}
 	
 	/// number of seconds since the program began
-	time: func -> Double {
-		SDL getTicks() as Double / 1000.0
+	time: func -> Float {
+		SDL getTicks() as Float / 1000.0
 	}
 	
 	/// Pause the program for the specified number of seconds
-	sleep: func (seconds:Double) {
+	sleep: func (seconds:Float) {
 		if (seconds < 0) seconds = 0
 		SDL delay(seconds*1000)
 	}

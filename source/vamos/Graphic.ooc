@@ -5,18 +5,18 @@ Graphic: abstract class {
 	
 	visible := true
 	active := true
-	x, y: Double
-	scrollX: Double = 1.0
-	scrollY: Double = 1.0
+	x, y: Float
+	scrollX := 1.0
+	scrollY := 1.0
 	
-	update: func (dt: Double)
-	draw: abstract func (screen:Screen, entity:Entity, x, y: Double)
+	update: func (dt: Float)
+	draw: abstract func (screen:Screen, entity:Entity, x, y: Float)
 	
 	assign: func (e:Entity) {
 		e graphic = this
 	}
 	
-	position: inline func (x, y:Double) {
+	position: inline func (x, y:Float) {
 		this x = x
 		this y = y
 	}

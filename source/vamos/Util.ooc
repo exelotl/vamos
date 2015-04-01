@@ -1,21 +1,21 @@
 import math
 
-deg: inline func (rad:Double) -> Double {
+deg: inline func (rad:Float) -> Float {
 	rad * 180 / PI
 }
-rad: inline func (deg:Double) -> Double {
+rad: inline func (deg:Float) -> Float {
 	deg * PI / 180
 }
-sign: inline func (n:Double) -> Double {
+sign: inline func (n:Float) -> Float {
 	(n > 0) ? 1 : ((n < 0) ? -1 : 0)
 }
-max: inline func (a, b: Double) -> Double {
+max: inline func (a, b: Float) -> Float {
 	(a > b) ? a : b
 }
-min: inline func (a, b: Double) -> Double {
+min: inline func (a, b: Float) -> Float {
 	(a < b) ? a : b
 }
-clamp: func (n, min, max: Double) -> Double {
+clamp: func (n, min, max: Float) -> Float {
 	(n < min) ? min : ((n > max) ? max : n)
 }
 
@@ -32,14 +32,14 @@ clamp: inline func~int (n, min, max: Int) -> Int {
 	(n < min) ? min : ((n > max) ? max : n)
 }
 
-max: inline func~array (arr:Double[]) -> Double {
-	n: Double = 0.0
+max: inline func~array (arr:Float[]) -> Float {
+	n: Float = 0.0
 	for (i in 0..arr length)
 		if (arr[i] > n) n = arr[i]
 	return n
 }
-min: inline func~array (arr:Double[]) -> Double {
-	n: Double = 0.0
+min: inline func~array (arr:Float[]) -> Float {
+	n: Float = 0.0
 	for (i in 0..arr length)
 		if (arr[i] < n) n = arr[i]
 	return n
@@ -57,7 +57,7 @@ min: inline func~intArray (arr:Int[]) -> Int {
 	return n
 }
 
-extend Double {
+extend Float {
 	clamp: inline func(min, max: This) -> This { clamp(this, min, max) }
 	sign: inline func -> This { sign(this) }
 	toRadians: inline func -> This { rad(this) }
@@ -73,7 +73,7 @@ extend UInt {
 }
 
 Point: class {
-	x, y: Double
+	x, y: Float
 	init: func
 	init: func~pos(=x, =y)
 	
@@ -83,7 +83,7 @@ Point: class {
 }
 
 Rect: class {
-	x, y, w, h: Double
+	x, y, w, h: Float
 	init: func
 	init: func~size(=w, =h)
 	init: func~full(=x, =y, =w, =h)

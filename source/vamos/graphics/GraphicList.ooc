@@ -17,11 +17,11 @@ GraphicList: class extends Graphic {
 	}
 	
 	
-	update: func (dt: Double) {
+	update: func (dt: Float) {
 		for (graphic in graphics) graphic update(dt)
 	}
 	
-	draw: func (screen:Screen, entity: Entity, x, y: Double) {
+	draw: func (screen:Screen, entity: Entity, x, y: Float) {
 		for (graphic in graphics) graphic draw(screen, entity, x+graphic x, y+graphic y)
 	}
 	

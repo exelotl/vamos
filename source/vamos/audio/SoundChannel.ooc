@@ -7,7 +7,7 @@ SoundChannel: class extends Sound {
 	init: func (=sounds) {}
 	init: func ~withVolumeAndPan (=sounds, =volume, =pan) {}
 	
-	play: func ~withVolumeAndPan (volume, pan: Double) {
+	play: func ~withVolumeAndPan (volume, pan: Float) {
 		if (playing) stop()
 		position = 0.0
 		for (sound in sounds) sound play(volume, pan)

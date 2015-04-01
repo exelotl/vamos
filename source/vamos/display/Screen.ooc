@@ -19,7 +19,7 @@ Screen: class {
 	format: UInt32 // pixel format
 	width, height: Int
 	color: Color
-	camX, camY:Double
+	camX, camY:Float
 	
 	init: func (=window, =target) {
 		format = SDL getWindowPixelFormat(window)

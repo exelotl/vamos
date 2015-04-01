@@ -18,7 +18,7 @@ SceneManager: class {
 	
 	init: func
 	
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		if (scene) scene update(dt)
 	}
 }

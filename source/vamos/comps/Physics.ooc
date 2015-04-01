@@ -2,10 +2,6 @@ import math
 import structs/ArrayList
 import vamos/[Util, Component, Entity]
 
-defaultHandler: static func (e:Entity) -> Bool {
-	true
-}
-
 Physics: class extends Component {
 	
 	types:ArrayList<String>
@@ -13,13 +9,13 @@ Physics: class extends Component {
 	/// Return true to collide, return false to keep moving
 	onCollide: Func(Entity)->Bool = defaultHandler
 	
-	velX, velY: Double
-	accX, accY: Double
-	maxVelX: Double = 99999
-	maxVelY: Double = 99999
-	dragX, dragY: Double
-	nudgeX, nudgeY: Double
-	bounce: Double
+	velX, velY: Float
+	accX, accY: Float
+	maxVelX := 99999.0
+	maxVelY := 99999.0
+	dragX, dragY: Float
+	nudgeX, nudgeY: Float
+	bounce: Float
 	sweep := false
 	
 	init: func (=types) {
@@ -34,7 +30,7 @@ Physics: class extends Component {
 		init(types as ArrayList<String>)
 	}
 
-	update: func (dt:Double) {
+	update: func (dt:Float) {
 		if (accX == 0) {
 			if (velX < 0) velX = min(velX + dragX*dt, 0)
 			else if (velX > 0) velX = max(velX - dragX*dt, 0)
@@ -60,11 +56,11 @@ Physics: class extends Component {
 		nudgeY = 0
 	}
 	
-	_fractionX:Double  // account for < 1px movement over many frames
-	_fractionY:Double
+	_fractionX:Float  // account for < 1px movement over many frames
+	_fractionY:Float
 	
 	// Thanks Chevy!
-	moveBy: func(x, y:Double) {
+	moveBy: func(x, y:Float) {
 		_fractionX += x
 		_fractionY += y
 		x = _fractionX round()
@@ -72,7 +68,7 @@ Physics: class extends Component {
 		_fractionX -= x
 		_fractionY -= y
 		
-		sign:Double
+		sign:Float
 		e:Entity
 		
 		if (x != 0) {
@@ -126,4 +122,7 @@ Physics: class extends Component {
 		onCollide = f
 	}
 	
+	defaultHandler: static func (e:Entity) -> Bool {
+		true
+	}
 }

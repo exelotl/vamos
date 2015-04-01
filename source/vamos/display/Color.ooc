@@ -11,7 +11,7 @@ Color: cover {
 	}
 	
 	/// Sets each channel based on values from 0 to 1
-	set: func@ ~fractions (_a, _r, _g, _b:Double) {
+	set: func@ ~fractions (_a, _r, _g, _b:Float) {
 		(a,r,g,b) = (_a*255,_r*255,_g*255,_b*255)
 	}
 	

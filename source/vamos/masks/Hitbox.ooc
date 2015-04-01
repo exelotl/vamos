@@ -2,7 +2,7 @@ import vamos/[Entity, Mask]
 
 Hitbox: class extends Mask {
 	
-	x, y, width, height : Double
+	x, y, width, height : Float
 	
 	init: func (=width, =height, =x, =y)
 	init: func~size (=width, =height)

@@ -19,9 +19,9 @@ Label: class extends SpriteMap {
 	
 	set: func (=text)
 	
-	draw: func (screen:Screen, entity:Entity, x, y: Double) {
-		dx:Double = 0
-		dy:Double = 0
+	draw: func (screen:Screen, entity:Entity, x, y: Float) {
+		dx := 0.0
+		dy := 0.0
 		for (c in text) {
 			if (c == '\n') {
 				dx = 0
