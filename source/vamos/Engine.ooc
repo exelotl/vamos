@@ -97,13 +97,13 @@ Engine: class {
 		screen draw()
 		mixer update(dt)
 		
-		sleep(1.0/frameRate - dt)
-		dt = min(time()-startTime, 2.0/frameRate)
+		sleep(1.0f/frameRate - dt)
+		dt = min(time()-startTime, 2.0f/frameRate)
 	}
 	
 	/// number of seconds since the program began
 	time: func -> Float {
-		SDL getTicks() as Float / 1000.0
+		SDL getTicks() as Float / 1000.0f
 	}
 	
 	/// Pause the program for the specified number of seconds

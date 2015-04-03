@@ -30,6 +30,8 @@ PlayScene: class extends Scene {
 	
 	player:Player
 	
+    init: func
+    
 	create: func {
 		vamos screen color set("#cc7777")
 		
@@ -115,6 +117,8 @@ PlayerAnim: class extends Anim {
 PlayerInput: class extends Component {
 	player: Player
 	
+    init: func
+    
 	added: func {
 		player = entity as Player
 	}

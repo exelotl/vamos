@@ -20,8 +20,8 @@ Label: class extends SpriteMap {
 	set: func (=text)
 	
 	draw: func (screen:Screen, entity:Entity, x, y: Float) {
-		dx := 0.0
-		dy := 0.0
+		dx := 0.0f
+		dy := 0.0f
 		for (c in text) {
 			if (c == '\n') {
 				dx = 0

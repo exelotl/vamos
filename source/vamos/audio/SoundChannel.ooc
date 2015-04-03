@@ -9,7 +9,7 @@ SoundChannel: class extends Sound {
 	
 	play: func ~withVolumeAndPan (volume, pan: Float) {
 		if (playing) stop()
-		position = 0.0
+		position = 0.0f
 		for (sound in sounds) sound play(volume, pan)
 		playing = true
 	}
@@ -17,7 +17,7 @@ SoundChannel: class extends Sound {
 	stop: func () {
 		if (!playing) return
 		for (sound in sounds) sound stop()
-		position = 0.0
+		position = 0.0f
 		playing = false
 	}
 	

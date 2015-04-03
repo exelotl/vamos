@@ -33,13 +33,13 @@ clamp: inline func~int (n, min, max: Int) -> Int {
 }
 
 max: inline func~array (arr:Float[]) -> Float {
-	n: Float = 0.0
+	n := 0.0f
 	for (i in 0..arr length)
 		if (arr[i] > n) n = arr[i]
 	return n
 }
 min: inline func~array (arr:Float[]) -> Float {
-	n: Float = 0.0
+	n := 0.0f
 	for (i in 0..arr length)
 		if (arr[i] < n) n = arr[i]
 	return n

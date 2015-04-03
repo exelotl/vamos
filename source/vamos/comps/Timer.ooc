@@ -3,9 +3,9 @@ import vamos/[Component, Entity]
 Timer: class extends Component {
 	
 	callback: Func
-	interval := 10.0
+	interval := 10.0f
 	running := false
-	_counter := 0.0
+	_counter := 0.0f
 	_looping := false
 	
 	init: func (=interval, =callback) {

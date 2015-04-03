@@ -11,8 +11,8 @@ Physics: class extends Component {
 	
 	velX, velY: Float
 	accX, accY: Float
-	maxVelX := 99999.0
-	maxVelY := 99999.0
+	maxVelX := 99999.0f
+	maxVelY := 99999.0f
 	dragX, dragY: Float
 	nudgeX, nudgeY: Float
 	bounce: Float

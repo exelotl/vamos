@@ -15,8 +15,8 @@ Music: class extends AudioSource {
 	playing := false
 	loop := true
 	
-	volume := 1.0
-	_volChange := 0.0 // per audio frame (used for fading in/out)
+	volume := 1.0f
+	_volChange := 0.0f // per audio frame (used for fading in/out)
 	
 	init: func(filename:String) {
 		ogg = StbVorbis openFilename(filename, error&, null)
@@ -45,10 +45,10 @@ Music: class extends AudioSource {
 	}
 	
 	fadeIn: func (t:Float) {
-		_volChange = 1.0 / (t * mixer sampleRate as Float)
+		_volChange = 1.0f / (t * mixer sampleRate as Float)
 	}
 	fadeOut: func (t:Float) {
-		_volChange = -1.0 / (t * mixer sampleRate as Float)
+		_volChange = -1.0f / (t * mixer sampleRate as Float)
 	}
 	
 	mixInto: func (stream:UInt8*, len:Int) {

@@ -31,8 +31,8 @@ main: func (argc:Int, argv:CString*) {
 
 PlayScene: class extends Scene {
 	
-	speed := 1.0
-	score := 0.0
+	speed := 1.0f
+	score := 0.0f
 	label: Label = Label new("font.png", 6, 10, "")
 	running := true
 	
@@ -65,7 +65,7 @@ PlayScene: class extends Scene {
 
 Player: class extends Entity {
 	
-	speed := 200.0
+	speed := 200.0f
 	
 	init: func (=x, =y) {
 		mask = Hitbox new(10, 10)
