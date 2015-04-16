@@ -4,7 +4,7 @@ import vamos/[Engine, Util, AssetCache]
 import vamos/audio/[Sample, Mixer, AudioSource]
 
 /**
- * Can load sound from a .wav or .ogg file
+ * Can load a whole sound into memory from a .wav file
  * If your file is large, consider using a streaming 'Music' object instead.
  */
 Sound: class extends AudioSource {
@@ -78,5 +78,4 @@ Sound: class extends AudioSource {
 		}
 	}
 	
-	//_is
 }

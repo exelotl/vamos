@@ -1,27 +1,28 @@
-use stb-vorbis, sdl2
+use vamos, vorbis
 import sdl2/Audio
 import vamos/Util
 import vamos/audio/[Mixer, AudioSource]
+import vorbis
 
 /**
- * Uses stb_vorbis to stream an a .ogg file
- * (doesn't work with mp3 or other formats)
+ * Uses ooc-vorbis (libvorbisfile bindings) to stream a .ogg file
+ * For now, assumes the ogg has the same sample rate as the mixer.
  */
 Music: class extends AudioSource {
 	
-	error: StbVorbisError
-	ogg: StbVorbis
+	ogg: OggFile
 	buffer: Short*
 	playing := false
 	loop := true
 	
+	// master volume (remains the same regardless of fades)
 	volume := 1.0f
-	_volChange := 0.0f // per audio frame (used for fading in/out)
+	
+	_gain := 1.0f
+	_gainChange := 0.0f // per audio frame (used for fading in/out)
 	
 	init: func(filename:String) {
-		ogg = StbVorbis openFilename(filename, error&, null)
-		if (ogg == null)
-			raise("Error in StbVorbis: " + error toString())
+		ogg = OggFile new(filename)
 	}
 	
 	added: func {
@@ -40,34 +41,46 @@ Music: class extends AudioSource {
 		playing = false
 	}
 	stop: func {
-		ogg seekStart()
+		ogg timeSeek(0)
 		playing = false
 	}
 	
 	fadeIn: func (t:Float) {
-		_volChange = 1.0f / (t * mixer sampleRate as Float)
+		_volChange = 1.0 / (t * mixer sampleRate as Float)
 	}
 	fadeOut: func (t:Float) {
-		_volChange = -1.0f / (t * mixer sampleRate as Float)
+		_volChange = -1.0 / (t * mixer sampleRate as Float)
 	}
 	
 	mixInto: func (stream:UInt8*, len:Int) {
 		
 		if (playing) {
 			
-			ogg getSamplesInterleaved(2, buffer, len/2)
+			totalBytesRead := 0
+			
+			while (totalBytesRead < len) {
+				
+				totalSamplesRead := totalBytesRead / 2
+				bytesRead := ogg read(buffer[totalSamplesRead]&, len - totalBytesRead)
+				totalBytesRead += bytesRead
+				
+				if (bytesRead == 0) {
+					if (loop) {
+						ogg timeSeek(0)
+					} else {
+						playing = false
+						break
+					}
+				}
+			}
 			
 			for (i in 0..len/2) {
-				volume = (volume + _volChange) clamp(0, 1)
-				buffer[i] = (buffer[i] as Float) * volume
-			} 
+				_gain = (_gain + _gainChange) clamp(0, volume)
+				buffer[i] = (buffer[i] as Float) * _gain
+			}
 			
 			SdlAudio mix(stream, buffer, len, SDL_MIX_MAXVOLUME)
 			
-			if (ogg getSampleOffset() == ogg getLengthInSamples()) {
-				if (loop) ogg seekStart()
-				else playing = false
-			}
 		}
 	}
 	

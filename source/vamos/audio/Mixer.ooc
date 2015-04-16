@@ -24,7 +24,7 @@ Mixer: class {
 		spec freq = 44100
 		spec format = AUDIO_S16
 		spec channels = 2
-		spec samples = 1024
+		spec samples = 2048
 		spec callback = _mix
 	}
 	

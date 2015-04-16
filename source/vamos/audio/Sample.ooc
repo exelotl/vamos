@@ -4,7 +4,7 @@ import ./[SampleLoader, Mixer]
 
 Sample: class {
 	data: UInt8*
-	size: UInt32
+	size: SizeT
 	
 	init: func (=data, =size)
 	
