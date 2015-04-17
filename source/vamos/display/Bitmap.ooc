@@ -10,6 +10,7 @@ Bitmap: class {
 	height: Int { get { surface@ h } }
 	format: SdlPixelFormat* { get { surface@ format } }
 	pixels: UInt32* { get { surface@ pixels } }
+	pitch: UInt16 { get { surface@ pitch } }
 	
 	init: func ~surface (=surface)
 	
@@ -21,12 +22,9 @@ Bitmap: class {
 		}
 	}
 	
-	init: func ~empty (w, h:UInt8, alpha:=true) {
-		
+	init: func ~empty (w, h:UInt8) {
 		(r,g,b,a) := SurfaceLoader getChannelMasks()
-		
-		if (alpha) init(SDL createRGBSurface(0, w, h, 32, r,g,b,a))
-		else init(SDL createRGBSurface(0, w, h, 24, r,g,b,0))
+		init(SDL createRGBSurface(0, w, h, 32, r,g,b,a))
 	}
 	
 	clone: func -> This {
@@ -63,6 +61,25 @@ Bitmap: class {
 		SDL unlockSurface(surface)
 	}
 	
+	copyPixels: func (source:Bitmap, sourceRect:SdlRect*, destRect: SdlRect*) {
+		SDL blitSurface(source surface, sourceRect, surface, destRect)
+	}
+	copyPixels: func~separate (source:Bitmap, sx, sy:Int16, sw, sh:UInt16, x, y:Int16) {
+		SDL blitSurface(source surface, ((sx,sy,sw,sh) as SdlRect)&, surface, ((x,y,0,0) as SdlRect)&)
+	}
+	copyPixels: func~sameDestRect (source:Bitmap, rect:SdlRect*) {
+		SDL blitSurface(source surface, rect, surface, rect)
+	}
+	copyPixels: func~sameDest (source:Bitmap, x, y:Int16, w, h:UInt16) {
+		SDL blitSurface(source surface, ((x,y,w,h) as SdlRect)&, surface, ((x,y,0,0) as SdlRect)&)
+	}
+	copyPixels: func~wholeTo (source:Bitmap, x, y:Int16) {
+		SDL blitSurface(source surface, null, surface, ((x,y,0,0) as SdlRect)&)
+	}
+	copyPixels: func~whole (source:Bitmap) {
+		SDL blitSurface(source surface, null, surface, null)
+	}
+
 	/**
 	 * Destroy any resources used by this bitmap.
 	 * No need to call manually, unless you didn't obtain the bitmap through the AssetCache

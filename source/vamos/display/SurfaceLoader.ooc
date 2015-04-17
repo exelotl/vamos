@@ -4,10 +4,16 @@ import sdl2/Core
 use stb-image
 import stb/image
 
+import vamos/Engine
+import vamos/display/Screen
+
 SurfaceLoader: class {
 	
 	load: static func(path:String) -> SdlSurface* {
 		
+		if (!vamos) raise("Can't load surfaces while the engine is not initialised")
+		format := vamos screen format
+
 		width, height, channels: Int
 		(r,g,b,a) := getChannelMasks()
 		
@@ -28,6 +34,14 @@ SurfaceLoader: class {
 		memcpy(surface@ pixels, data, width*height*channels)
 		free(data)
 		
+		// make sure the surface matches the screen bpp
+		// (assumed to be 32 bits for now)
+		if (channels == 3) {
+			oldSurface := surface
+			surface = SDL convertSurfaceFormat(oldSurface, format, 0)
+			SDL freeSurface(oldSurface)
+		}
+
 		return surface
 	}
 	

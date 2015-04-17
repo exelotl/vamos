@@ -65,12 +65,27 @@ Texture: class {
 	}
 	blend = BlendMode BLEND
 	
-	//alpha: UInt8 {
-	//	get { SDL getTextureAlphaMod(data) }
-	//	set (v) { SDL setTextureAlphaMod(data, v) }
-	//}
-	//
-	//color: C
+	copyPixels: func (bitmap:Bitmap, sourceRect:SdlRect*, x, y:Int16) {
+		pitch := bitmap pitch
+		pixels := bitmap pixels + x + y*pitch/4
+		SDL updateTexture(data, sourceRect, pixels, pitch)
+	}
+
+	copyPixels: func~separate (bitmap:Bitmap, sx, sy:Int16, sw, sh:UInt16, x, y:Int16) {
+		copyPixels(bitmap, ((sx,sy,sw,sh) as SdlRect)&, x, y)
+	}
+
+	copyPixels: func~sameDest (bitmap:Bitmap, x, y:Int16, w, h:UInt16) {
+		copyPixels(bitmap, ((x,y,w,h) as SdlRect)&, x, y)
+	}
+
+	copyPixels: func~sameDestRect (bitmap:Bitmap, rect:SdlRect*) {
+		copyPixels(bitmap, rect, rect@ x, rect@ y)
+	}
+
+	copyPixels: func~whole (bitmap:Bitmap) {
+		SDL updateTexture(data, null, bitmap pixels, bitmap pitch)
+	}
 	
 	free: func {
 		SDL destroyTexture(data)
