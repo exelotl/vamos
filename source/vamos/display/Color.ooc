@@ -2,31 +2,27 @@ use sdl2
 import sdl2/Core
 
 Color: cover {
-	a:UInt8 = 255
 	r,g,b:UInt8
+	a:UInt8 = 255
 	
 	/// Sets each channel separately
-	set: func@ ~separate (_a, _r, _g, _b:UInt8) {
-		(a,r,g,b) = (_a,_r,_g,_b)
+	set: func@ (_r, _g, _b, _a:UInt8) {
+		(r,g,b,a) = (_r,_g,_b,_a)
 	}
 	
-	/// Sets each channel based on values from 0 to 1
-	set: func@ ~fractions (_a, _r, _g, _b:Float) {
-		(a,r,g,b) = (_a*255,_r*255,_g*255,_b*255)
+	/// Sets each channel based on a 32 bit color in 0xrrggbbaa format
+	set: func@ ~combined (rgba:UInt32) {
+		r = rgba >> 24
+		g = (rgba >> 16) & 0xff
+		b = (rgba >> 8) & 0xff
+		a = rgba & 0xff
 	}
 	
-	/// Sets each channel based on a 32 bit color in 0xaarrggbb format
-	set: func@ ~combined (argb:UInt32) {
-		a = argb >> 24
-		r = (argb >> 16) & 0xff
-		g = (argb >> 8) & 0xff
-		b = argb & 0xff 
-	}
-	
-	/// Sets each channel using a string in #rrggbb or #aarrggbb format
+	/// Sets each channel using a string in #rrggbb or #rrggbbaa format
 	set: func@ ~string (str:String) {
-		this set(str replaceAll("#", "") toULong(16))
-		if (str size < 8) a = 255
+		rgba := str replaceAll("#", "") toULong(16)
+		if (str size < 8) this set((rgba << 8) | 0xff)
+		else this set(rgba)
 	}
 	
 	set: func@ ~sdl (pixel:UInt32, format:SdlPixelFormat*) {
@@ -37,14 +33,14 @@ Color: cover {
 		SDL mapRgba(format, r, g, b, a)
 	}
 	
-	/// Returns a 32-bit 0xaarrggbb version of the color
-	toArgb: func@ -> UInt32 {
-		(a << 24) & (r << 16) & (g << 8) & b
+	/// Returns a 32-bit 0xrrggbbaa version of the color
+	toRgba: func@ -> UInt32 {
+		(r << 24) & (g << 16) & (b << 8) & a
 	}
 	
-	/// Returns the color as a string in #aarrggbb format
+	/// Returns the color as a string in #rrggbbaa format
 	toString: func@ -> String {
-		"#%x" format(toArgb())
+		"#%x" format(toRgba())
 	}
 }
 
