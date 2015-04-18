@@ -1,5 +1,7 @@
 use sdl2
 import sdl2/Core
+import vamos/Engine
+import vamos/display/Screen
 import ./[SurfaceLoader, Color]
 
 Bitmap: class {
@@ -24,7 +26,11 @@ Bitmap: class {
 	
 	init: func ~empty (w, h:UInt8) {
 		(r,g,b,a) := SurfaceLoader getChannelMasks()
-		init(SDL createRGBSurface(0, w, h, 32, r,g,b,a))
+		// TODO clean this up
+		surface := SDL createRGBSurface(0, w, h, 32, r,g,b,a)
+		newSurface := SDL convertSurfaceFormat(surface, vamos screen format, 0)
+		SDL freeSurface(surface)
+		init(newSurface)
 	}
 	
 	clone: func -> This {
@@ -35,12 +41,20 @@ Bitmap: class {
 		SDL fillRect(surface, null, 0)
 	}
 	
+	clearRect: func (rect:SdlRect*) {
+		SDL fillRect(surface, rect, 0)
+	}
+	
+	clearRect: func~separate (x, y:Int16, w, h:UInt16) {
+		SDL fillRect(surface, ((x,y,w,h) as SdlRect)&, 0)
+	}
+	
 	fill: func (color:Color) {
 		SDL fillRect(surface, null, color toSDL(format))
 	}
 	
-	fillRect: func (rect:SdlRect, color:Color) {
-		SDL fillRect(surface, rect&, color toSDL(format))
+	fillRect: func (rect:SdlRect*, color:Color) {
+		SDL fillRect(surface, rect, color toSDL(format))
 	}
 	
 	fillRect: func~separate (x, y:Int16, w, h:UInt16, color:Color) {
@@ -63,6 +77,9 @@ Bitmap: class {
 	
 	copyPixels: func (source:Bitmap, sourceRect:SdlRect*, destRect: SdlRect*) {
 		SDL blitSurface(source surface, sourceRect, surface, destRect)
+	}
+	copyPixels: func~rectTo (source:Bitmap, sourceRect:SdlRect*, x, y:Int16) {
+		SDL blitSurface(source surface, sourceRect, surface, ((x,y,0,0) as SdlRect)&)
 	}
 	copyPixels: func~separate (source:Bitmap, sx, sy:Int16, sw, sh:UInt16, x, y:Int16) {
 		SDL blitSurface(source surface, ((sx,sy,sw,sh) as SdlRect)&, surface, ((x,y,0,0) as SdlRect)&)

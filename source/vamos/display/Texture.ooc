@@ -84,7 +84,7 @@ Texture: class {
 	}
 
 	copyPixels: func~whole (bitmap:Bitmap) {
-		SDL updateTexture(data, null, bitmap pixels, bitmap pitch)
+		SDL updateTexture(data, ((0,0,bitmap width,bitmap height) as SdlRect)&, bitmap pixels, bitmap pitch)
 	}
 	
 	free: func {
