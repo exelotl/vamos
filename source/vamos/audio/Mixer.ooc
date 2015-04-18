@@ -49,6 +49,7 @@ Mixer: class {
 			source := iter next()
 			if (source _removed) {
 				source mixer = null
+				source _removed = false
 				iter remove()
 			}
 			else source update(dt)

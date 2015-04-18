@@ -13,7 +13,7 @@ Sound: class extends AudioSource {
 	position: UInt32
 	
 	playing := false
-	looping := true
+	looping := false
 	volume := 1.0f
 	pan := 0.0f
 	
@@ -59,7 +59,6 @@ Sound: class extends AudioSource {
 	mixInto: func (buffer:UInt8*, bufferSize:Int) {
 		
 		bufferPos := 0
-		
 		while (playing && bufferPos < bufferSize) {
 			
 			remaining := sample size - position

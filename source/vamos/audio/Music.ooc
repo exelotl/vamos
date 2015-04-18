@@ -45,11 +45,19 @@ Music: class extends AudioSource {
 		playing = false
 	}
 	
+	mute: func {
+		_gain = 0.0f
+		_gainChange = 0.0f
+	}
+	unmute: func {
+		_gain = 1.0f
+		_gainChange = 0.0f
+	}
 	fadeIn: func (t:Float) {
-		_volChange = 1.0 / (t * mixer sampleRate as Float)
+		_gainChange = 1.0f / (t * mixer sampleRate as Float)
 	}
 	fadeOut: func (t:Float) {
-		_volChange = -1.0 / (t * mixer sampleRate as Float)
+		_gainChange = -1.0f / (t * mixer sampleRate as Float)
 	}
 	
 	mixInto: func (stream:UInt8*, len:Int) {
