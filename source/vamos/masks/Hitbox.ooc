@@ -4,10 +4,10 @@ Hitbox: class extends Mask {
 	
 	x, y, width, height : Float
 	
-	init: func (=width, =height, =x, =y)
+	init: func (=x, =y, =width, =height)
 	init: func~size (=width, =height)
 	
-	set: func (=width, =height, =x, =y)
+	set: func (=x, =y, =width, =height)
 	set: func~size (=width, =height)
 	
 	center: func {
