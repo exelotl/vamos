@@ -25,11 +25,11 @@ Label: class extends SpriteMap {
 		for (c in text) {
 			if (c == '\n') {
 				dx = 0
-				dy += frameHeight * scale
+				dy += frameHeight * scaleY
 			} else {
 				frame = c as Int
 				super(screen, entity, x + dx, y + dy)
-				dx += frameWidth * scale
+				dx += frameWidth * scaleX
 			}
 		}
 	}

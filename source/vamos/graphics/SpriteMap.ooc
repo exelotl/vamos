@@ -28,8 +28,8 @@ SpriteMap: class extends Image {
 	}
 	
 	draw: func (screen:Screen, entity:Entity, x, y: Float) {
-		dstRect w = frameWidth * scale
-		dstRect h = frameHeight * scale
+		dstRect w = frameWidth * scaleX
+		dstRect h = frameHeight * scaleY
 		super(screen, entity, x, y)
 	}
 }

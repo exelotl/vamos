@@ -26,12 +26,35 @@ Image: class extends Graphic {
 		set (v) { color a = v }
 	}
 	
-	scale: Float {
+	scaleX: Float {
 		get
 		set (v) {
 			dstRect w = srcRect w * v
+			scaleX = v
+		}
+	}
+	
+	scaleY: Float {
+		get
+		set (v) {
 			dstRect h = srcRect h * v
-			scale = v
+			scaleY = v
+		}
+	}
+	
+	_flip : Int
+	flipX: Bool {
+		get { (_flip & SDL_FLIP_HORIZONTAL) != 0 }
+		set (v) {
+			if (v) _flip |= SDL_FLIP_HORIZONTAL
+			else _flip &= ~SDL_FLIP_HORIZONTAL
+		}
+	}
+	flipY: Bool {
+		get { (_flip & SDL_FLIP_VERTICAL) != 0 }
+		set (v) {
+			if (v) _flip |= SDL_FLIP_VERTICAL
+			else _flip &= ~SDL_FLIP_VERTICAL
 		}
 	}
 	
@@ -47,7 +70,8 @@ Image: class extends Graphic {
 		dstRect h = texture height
 		srcRect w = texture width
 		srcRect h = texture height
-		scale = 1
+		scaleX = 1
+		scaleY = 1
 	}
 	
 	center: func {
@@ -59,10 +83,10 @@ Image: class extends Graphic {
 		dstRect x = x - origin x
 		dstRect y = y - origin y
 		texture color = color
-		if (angle == 0) {
+		if (angle == 0 && _flip == 0) {
 			screen drawTexture(texture, srcRect&, dstRect&)
 		} else {
-			screen drawTexture(texture, srcRect&, dstRect&, angle, null, SDL_FLIP_NONE)
+			screen drawTexture(texture, srcRect&, dstRect&, angle, null, _flip)
 		}
 	}
 	
