@@ -34,12 +34,14 @@ SurfaceLoader: class {
 		memcpy(surface@ pixels, data, width*height*channels)
 		free(data)
 		
+		return surface
+		
 		// make sure the surface matches the screen's pixel format
-		newSurface := surface
-		newSurface = SDL convertSurfaceFormat(surface, format, 0)
-		SDL freeSurface(surface)
-
-		return newSurface
+//		newSurface := surface
+//		newSurface = SDL convertSurfaceFormat(surface, format, 0)
+//		SDL freeSurface(surface)
+//
+//		return newSurface
 	}
 	
 	getChannelMasks: static func -> (UInt32,UInt32,UInt32,UInt32) {
