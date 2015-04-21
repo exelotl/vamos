@@ -1,5 +1,6 @@
 import vamos/Engine
 import vamos/audio/Mixer
+import threading/Thread
 
 /**
  * Base class for anything that can produce sound, that can be added to the mixer
@@ -7,6 +8,12 @@ import vamos/audio/Mixer
 AudioSource: abstract class {
 	
 	mixer: Mixer
+	
+	_mutex := Mutex new()
+	
+	// use for reliable access to the properties of this source
+	lock: func { _mutex lock() }
+	unlock: func { _mutex unlock() }
 	
 	// Mix sound into an audio stream.
 	// Don't remove or instantiate anything in here

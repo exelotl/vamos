@@ -2,6 +2,7 @@ use sdl2
 import sdl2/[Core, Audio]
 import structs/ArrayList
 import vamos/audio/AudioSource
+import threading/Thread
 
 /**
  * Contains sound sources, streams them to SDL on-demand.
@@ -11,6 +12,7 @@ Mixer: class {
 	
 	sources := ArrayList<AudioSource> new()
 	spec: SdlAudioSpec
+	mutex := static Mutex new()
 	
 	open? : Bool {
 		get { _currentSources == sources }
@@ -47,12 +49,14 @@ Mixer: class {
 		iter := sources iterator()
 		while (iter hasNext?()) {
 			source := iter next()
+			source lock()
 			if (source _removed) {
 				source mixer = null
 				source _removed = false
 				iter remove()
 			}
 			else source update(dt)
+			source unlock()
 		}
 	}
 	
@@ -92,10 +96,14 @@ _mix: func (userdata:Pointer, stream:UInt8*, len:Int) {
 	if (_currentSources == null)
 		return
 	
+	Mixer mutex lock()
 	i := 0
 	while (i < _currentSources size) {
 		source := _currentSources[i]
+		source lock()
 		source mixInto(stream, len)
+		source unlock()
 		i += 1
 	}
+	Mixer mutex unlock()
 }

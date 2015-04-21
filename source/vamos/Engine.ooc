@@ -121,11 +121,13 @@ Engine: class {
 	}
 	
 	cleanup: func {
+		mixer mutex lock()
 		mixer close()
 		assets free()
 		vamos = null
 		SDL destroyRenderer(renderer)
 		SDL destroyWindow(window)
 		SDL quit()
+		mixer mutex unlock()
 	}
 }

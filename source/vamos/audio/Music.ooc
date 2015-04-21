@@ -33,6 +33,19 @@ Music: class extends AudioSource {
 		
 	}
 	
+	_time: Double
+	time: Double {
+		get { _time }
+		set (v) {
+			_time = v
+			ogg timeSeek(v)
+		}
+	}
+	
+	duration: Double {
+		get { ogg timeTotal() }
+	}
+	
 	play: func {
 		if (!mixer) addSelf()
 		playing = true
@@ -41,7 +54,7 @@ Music: class extends AudioSource {
 		playing = false
 	}
 	stop: func {
-		ogg timeSeek(0)
+		time = 0
 		playing = false
 	}
 	
@@ -66,6 +79,8 @@ Music: class extends AudioSource {
 			
 			totalBytesRead := 0
 			
+			_time = ogg time()
+			
 			while (totalBytesRead < len) {
 				
 				totalSamplesRead := totalBytesRead / 2
@@ -75,6 +90,7 @@ Music: class extends AudioSource {
 				if (bytesRead == 0) {
 					if (loop) {
 						ogg timeSeek(0)
+						_time = 0
 					} else {
 						playing = false
 						break
@@ -93,6 +109,10 @@ Music: class extends AudioSource {
 	}
 	
 	update: func (dt:Float) {
-		
+		_time += dt
+		if (_time > duration) {
+			if (loop) _time -= duration
+			else _time = duration
+		}
 	}
 }
