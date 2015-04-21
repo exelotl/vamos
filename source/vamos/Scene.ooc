@@ -88,19 +88,25 @@ Scene: class {
 	
 	getFirst: func ~ofType(type:String) -> Entity {
 		list:ArrayList<Entity> = types[type]
-		if (!list || list size == 0) return null
+		if (!list || list size == 0) {
+			for (e in addList)
+				if (e type == type)
+					return e
+			return null
+		}
 		return list first()
 	}
 	
-	getFirst: func ~ofClass <T> (T:Class) -> T {
-		for (e in entities)
-			if (e class == T)
-				return e as T
-		for (e in addList)
-			if (e class == T)
-				return e as T
-		null
-	}
+	// TODO figure out why this doesn't work
+//	getFirst: func ~ofClass <T> (T:Class) -> T {
+//		for (e in entities)
+//			if (e instanceOf?(T))
+//				return e as T
+//		for (e in addList)
+//			if (e instanceOf?(T))
+//				return e as T
+//		null
+//	}
 	
 	each: func (type:String, f:Func(Entity)->Bool) {
 		for (e in types[type] as ArrayList<Entity>)
