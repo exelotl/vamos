@@ -27,6 +27,13 @@ Grid: class extends Mask {
 			data[x + y*w] = val
 	}
 	
+	load: func (f:Func(Int, Int)->UInt) {
+		allocate()
+		for (x in 0..w)
+			for (y in 0..h)
+				set(x, y, f(x, y))
+	}
+	
 	load: func ~fromString(str, colSep, rowSep: String) {
 		allocate()
 		if (_isWhitespace(str))
