@@ -43,6 +43,7 @@ Screen: class {
 	draw: func {
 		if (!scene) return
 		
+		SDL setRenderDrawBlendMode(target, SDL_BLENDMODE_BLEND)
 		SDL setRenderDrawColor(target, color r, color g, color b, color a)
 		SDL renderClear(target)
 		

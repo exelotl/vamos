@@ -17,14 +17,14 @@ FilledRect: class extends Graphic {
 		get { rect h }
 	}
 	
-	init: func (=width, =height, a,r,g,b:UInt8) { color set(a,r,g,b) }
-	init: func~rgb (=width, =height, r,g,b:UInt8) { color set(255,r,g,b) }
-	init: func~u32 (=width, =height, argb:UInt32) { color set(argb) }
+	init: func (=width, =height, r,g,b,a:UInt8) { color set(r,g,b,a) }
+	init: func~rgb (=width, =height, r,g,b:UInt8) { color set(r,g,b,255) }
+	init: func~u32 (=width, =height, rgba:UInt32) { color set(rgba) }
 	init: func~str (=width, =height, str:String) { color set(str) }
 	
 	center: func {
-		x = rect w * -0.5
-		y = rect h * -0.5
+		x = rect w * -0.5f
+		y = rect h * -0.5f
 	}
 	
 	draw: func (screen:Screen, entity:Entity, x, y: Float) {
