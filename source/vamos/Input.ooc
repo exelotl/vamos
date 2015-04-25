@@ -7,14 +7,19 @@ Input: class {
 	onQuit: static Func = func {}
 	
 	mouseX, mouseY: static Int
+	
 	mouseHeld: static Bool
 	mousePressed: static Bool
 	mouseReleased: static Bool
 	
+	rightMouseHeld: static Bool
+	rightMousePressed: static Bool
+	rightMouseReleased: static Bool
+	
 	_numKeyStates: static Int
 	keyStates: static Bool*
 	prevKeyStates: static Bool*
-	
+        
 	_hasInitialized: static Bool
 	
 	// Should be called after SDL has initialized
@@ -56,7 +61,7 @@ Input: class {
 		for (i in 0.._numKeyStates)
 			prevKeyStates[i] = keyStates[i]
 		
-		mouseHeld = mouseReleased = false
+		mousePressed = mouseReleased = false
 		
 		while (SdlEvent poll(event&)) {
 			
@@ -66,12 +71,24 @@ Input: class {
 					mouseY = event motion y
 
 				case SDL_MOUSEBUTTONDOWN =>
-					mousePressed = true
-					mouseHeld = true
+					match (event button button) {
+						case SDL_BUTTON_LEFT =>
+							mousePressed = true
+							mouseHeld = true
+						case SDL_BUTTON_RIGHT =>
+							rightMousePressed = true
+							rightMouseHeld = true
+					}
 
 				case SDL_MOUSEBUTTONUP =>
-					mouseReleased = false
-					mouseHeld = false
+					match (event button button) {
+						case SDL_BUTTON_LEFT =>
+							mouseReleased = true
+							mouseHeld = false
+						case SDL_BUTTON_RIGHT =>
+							rightMouseReleased = true
+							rightMouseHeld = false
+					}
 
 				case SDL_QUIT =>
 					Input onQuit()
