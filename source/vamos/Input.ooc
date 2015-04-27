@@ -62,6 +62,7 @@ Input: class {
 			prevKeyStates[i] = keyStates[i]
 		
 		mousePressed = mouseReleased = false
+		rightMousePressed = rightMouseReleased = false
 		
 		while (SdlEvent poll(event&)) {
 			
