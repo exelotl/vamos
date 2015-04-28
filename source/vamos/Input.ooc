@@ -16,10 +16,13 @@ Input: class {
 	rightMousePressed: static Bool
 	rightMouseReleased: static Bool
 	
+	scrollX: static Int
+	scrollY: static Int
+	
 	_numKeyStates: static Int
 	keyStates: static Bool*
 	prevKeyStates: static Bool*
-        
+	
 	_hasInitialized: static Bool
 	
 	// Should be called after SDL has initialized
@@ -63,6 +66,7 @@ Input: class {
 		
 		mousePressed = mouseReleased = false
 		rightMousePressed = rightMouseReleased = false
+		scrollX = scrollY = 0
 		
 		while (SdlEvent poll(event&)) {
 			
@@ -90,6 +94,20 @@ Input: class {
 							rightMouseReleased = true
 							rightMouseHeld = false
 					}
+			
+				case SDL_MOUSEWHEEL =>
+					scrollX = event wheel x
+					scrollY = event wheel y
+                    
+					/*
+                    if (event wheel direction == SDL_MOUSEWHEEL_FLIPPED) {
+						scrollX *= -1
+						scrollY *= -1
+					}
+                    
+                    wheel direction is not defined?
+                    Only relevant for some hardware, where input is inverse
+                    */
 
 				case SDL_QUIT =>
 					Input onQuit()
