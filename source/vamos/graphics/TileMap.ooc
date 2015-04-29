@@ -21,6 +21,7 @@ TileMap: class extends Graphic {
 	w, h: Int  // size in tiles
 	
 	firstValue := 1
+    outOfBoundsValue := 0
 	
 	init: func ~path (path:String, .w, .h, tileW, tileH:UInt) {
 		init(vamos assets getTexture(path), w, h, tileW, tileH)
@@ -36,7 +37,7 @@ TileMap: class extends Graphic {
 	}
 	
 	get: inline func(x, y:UInt) -> UInt {
-		(x < w && y < h) ? data[x + y*w] : 0
+		(x < w && y < h) ? data[x + y*w] : outOfBoundsValue
 	}
 	set: inline func(x, y, val:UInt) {
 		if (x < w && y < h)
@@ -83,8 +84,8 @@ TileMap: class extends Graphic {
 		startY:Int = (renderer camY - entity y) / dstRect h
 		screenW := renderer width / dstRect w + 2
 		screenH := renderer height / dstRect h + 2
-		offX := (startX) * dstRect w - (renderer camX - entity x)
-		offY := (startY) * dstRect h - (renderer camY - entity y)
+		offX := (renderer camX - entity x) - startX * dstRect w
+		offY := (renderer camY - entity y) - startY * dstRect h
 		
 		for (x in 0..screenW) {
 			dstRect x = offX + x * dstRect w

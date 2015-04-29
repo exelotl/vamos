@@ -16,9 +16,10 @@ Engine: class {
 	scale: UInt
 	frameRate: Float
 	dt: Float
-	
+    
 	window: SdlWindow
 	renderer: SdlRenderer
+    monitor: SdlDisplayMode
 	assets: AssetCache
 	mixer: Mixer
 	sceneManager: SceneManager
@@ -53,9 +54,8 @@ Engine: class {
 			SDL_WINDOWPOS_UNDEFINED,
 			width*scale, height*scale, SDL_WINDOW_SHOWN)
 		
-		display:SdlDisplayMode
-		SDL getDesktopDisplayMode(0, display&)
-		SDL setWindowDisplayMode(window, display&)
+		SDL getDesktopDisplayMode(0, monitor&)
+		SDL setWindowDisplayMode(window, monitor&)
 		
 		renderer = SDL createRenderer(window, -1, SDL_RENDERER_ACCELERATED)
 		SDL renderSetLogicalSize(renderer, width, height)
