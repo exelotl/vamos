@@ -80,12 +80,12 @@ TileMap: class extends Graphic {
 	draw: func (renderer:Screen, entity:Entity, x, y:Float) {
 		if (!data) return
 		
-		startX:Int = (renderer camX - entity x) / dstRect w
-		startY:Int = (renderer camY - entity y) / dstRect h
+		startX:Int = (renderer camX - entity x) / dstRect w - 1
+		startY:Int = (renderer camY - entity y) / dstRect h - 1
 		screenW := renderer width / dstRect w + 2
 		screenH := renderer height / dstRect h + 2
-		offX := (renderer camX - entity x) - startX * dstRect w
-		offY := (renderer camY - entity y) - startY * dstRect h
+		offX := startX * dstRect w - (renderer camX - entity x)
+		offY := startY * dstRect h - (renderer camY - entity y)
 		
 		for (x in 0..screenW) {
 			dstRect x = offX + x * dstRect w
