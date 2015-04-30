@@ -10,6 +10,7 @@ SceneManager: class {
 			}
 			if (!newScene created) {
 				newScene create()
+				newScene created = true
 			}
 			newScene enter(scene)
 			scene = newScene
