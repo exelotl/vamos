@@ -19,7 +19,7 @@ Engine: class {
     
 	window: SdlWindow
 	renderer: SdlRenderer
-    monitor: SdlDisplayMode
+	monitor: SdlDisplayMode
 	assets: AssetCache
 	mixer: Mixer
 	sceneManager: SceneManager

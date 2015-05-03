@@ -100,14 +100,14 @@ Input: class {
 					scrollY = event wheel y
                     
 					/*
-                    if (event wheel direction == SDL_MOUSEWHEEL_FLIPPED) {
+					* Wheel direction not currently supported in ooc-sdl2
+
+					if (event wheel direction == SDL_MOUSEWHEEL_FLIPPED) {
 						scrollX *= -1
 						scrollY *= -1
 					}
-                    
-                    wheel direction is not defined?
-                    Only relevant for some hardware, where input is inverse
-                    */
+
+					*/
 
 				case SDL_QUIT =>
 					Input onQuit()

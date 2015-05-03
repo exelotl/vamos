@@ -15,13 +15,22 @@ FillMode: enum {
 Box: class extends Graphic {
 	borderW, borderH: Int
 	width, height: Int
-	fill? := true // Definitely turn this off if you're using a small file to fill a large area
+	fill? := true // Definitely turn this off if you're using repeated mode
 	mode := FillMode STRETCH
 		
 	texture: Texture
 	
 	dstRect: SdlRect
 	srcRect: SdlRect
+	
+	innerW: Int {
+		get { width - 2*borderW }
+		set (v) { width = v + 2*borderW }
+	}
+	innerH: Int {
+		get { height - 2*borderH }
+		set (v) { height = v + 2*borderH }
+	}
 		
 	init: func~path (key:String, =width, =height, =borderW, =borderH) {
 		texture = vamos assets getTexture(key)
