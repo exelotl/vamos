@@ -16,6 +16,19 @@ Graphic: abstract class {
 		e graphic = this
 	}
 	
+	hide: func {
+		visible = false
+	}
+	
+	show: func {
+		visible = true
+	}
+	
+	fix: func {
+		scrollX = 0
+		scrollY = 0
+	}
+	
 	position: inline func (x, y:Float) {
 		this x = x
 		this y = y

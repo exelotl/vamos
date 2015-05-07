@@ -23,17 +23,27 @@ TileMap: class extends Graphic {
 	firstValue := 1
     outOfBoundsValue := 0
 	
+	baseTileWidth, baseTileHeight: Int
+	tileOffsetX, tileOffsetY: Int
+	
 	init: func ~path (path:String, .w, .h, tileW, tileH:UInt) {
 		init(vamos assets getTexture(path), w, h, tileW, tileH)
 	}
 	
 	init: func ~texture (=source, =w, =h, tileW, tileH:UInt) {
+		baseTileWidth = tileW
+		baseTileHeight = tileH
 		width = w * tileW
 		height = h * tileH
 		sourceW = source width / tileW
 		sourceH = source height / tileH
 		srcRect w = dstRect w = tileW
 		srcRect h = dstRect h = tileH
+	}
+	
+	setTileArea: func(=tileOffsetX, =tileOffsetY, =baseTileWidth, =baseTileHeight) {
+		width = w * baseTileWidth
+		height = h * baseTileHeight
 	}
 	
 	get: inline func(x, y:UInt) -> UInt {
@@ -80,16 +90,16 @@ TileMap: class extends Graphic {
 	draw: func (renderer:Screen, entity:Entity, x, y:Float) {
 		if (!data) return
 		
-		startX:Int = (renderer camX - entity x) / dstRect w - 1
-		startY:Int = (renderer camY - entity y) / dstRect h - 1
-		screenW := renderer width / dstRect w + 2
-		screenH := renderer height / dstRect h + 2
-		offX := startX * dstRect w - (renderer camX - entity x)
-		offY := startY * dstRect h - (renderer camY - entity y)
+		startX:Int = (renderer camX - entity x) / baseTileWidth - 1
+		startY:Int = (renderer camY - entity y) / baseTileHeight - 1
+		screenW := renderer width / baseTileWidth + 2
+		screenH := renderer height / baseTileHeight + 2
+		offX := startX * baseTileWidth - (renderer camX - entity x)
+		offY := startY * baseTileHeight - (renderer camY - entity y)
 		
 		for (x in 0..screenW) {
-			dstRect x = offX + x * dstRect w
-			dstRect y = offY
+			dstRect x = offX + x * baseTileWidth - tileOffsetX
+			dstRect y = offY - tileOffsetY
 			
 			for (y in 0..screenH) {
 				val := get(x+startX, y+startY)
@@ -99,7 +109,7 @@ TileMap: class extends Graphic {
 					srcRect y = (val / sourceW) * dstRect h
 					renderer drawTexture(source, srcRect&, dstRect&)
 				}
-				dstRect y += dstRect h
+				dstRect y += baseTileHeight
 			}
 		}
 	}
