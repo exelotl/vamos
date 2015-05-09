@@ -1,9 +1,11 @@
 import vamos/[Component, Entity, Input]
 
 Button: class extends Component {
-    width, height: Int
+	name = "button"
+	
+	width, height: Int
 	xOffset, yOffset: Int
-    
+	
 	onMouseEnter: func(=_mouseEnter)
 	onMouseLeave: func(=_mouseLeave)
 	onClick: func(=_click)
@@ -18,7 +20,7 @@ Button: class extends Component {
 				_mouseEnter()
 				_mouseOver? = true
 			}
-			if (Input mousePressed) {
+			if (Input mousePressed()) {
 				_click()
 				_clicked? = true
 			}
@@ -28,16 +30,16 @@ Button: class extends Component {
 				_mouseOver? = false
 			}
 		}
-		if (_clicked? && Input mouseReleased) {
+		if (_clicked? && Input mouseReleased()) {
 			_release()
 			_clicked? = false
 		}
 	}
 	
-    _mouseEnter: Func = func {}
-    _mouseLeave: Func = func {}
-    _click: Func = func {}
+	_mouseEnter: Func = func {}
+	_mouseLeave: Func = func {}
+	_click: Func = func {}
 	_release: Func = func {}
-    _mouseOver? := false
-    _clicked? := false
+	_mouseOver? := false
+	_clicked? := false
 }

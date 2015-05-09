@@ -8,20 +8,13 @@ Input: class {
 	
 	mouseX, mouseY: static Int
 	
-	mouseHeld: static Bool
-	mousePressed: static Bool
-	mouseReleased: static Bool
+	scrollX, scrollY: static Int
 	
-	rightMouseHeld: static Bool
-	rightMousePressed: static Bool
-	rightMouseReleased: static Bool
-	
-	scrollX: static Int
-	scrollY: static Int
+	_validMouseIds := static const 1..6
+	mouseState, prevMouseState: static UInt8
 	
 	_numKeyStates: static Int
-	keyStates: static Bool*
-	prevKeyStates: static Bool*
+	keyStates, prevKeyStates: static Bool*
 	
 	_hasInitialized: static Bool
 	
@@ -31,6 +24,29 @@ Input: class {
 		keyStates = SDL getKeyboardState(_numKeyStates&)
 		prevKeyStates = gc_malloc(Bool size * _numKeyStates)
 		_hasInitialized = true
+	}
+	
+	_flag: inline static func (id: Int) -> UInt8 {
+		1 << (id-1)
+	}
+	_hasFlag: inline static func(word, flag: UInt8) -> Bool {
+		(word & _flag(flag)) != 0
+	}
+	
+	// Left mouse button = 1, middle = 2, right = 3, extended mouse buttons = 4 & 5
+	mouseHeld: static func ~left -> Bool { mouseHeld(1) }
+	mouseHeld: static func(id: Int) -> Bool {
+		_hasFlag(mouseState, id)
+	}
+	
+	mousePressed: static func ~left -> Bool { mousePressed(1) }
+	mousePressed: static func(id: Int) -> Bool {
+		_hasFlag(mouseState, id) && !_hasFlag(prevMouseState, id)
+	}
+	
+	mouseReleased: static func ~left -> Bool { mouseReleased(1) }
+	mouseReleased: static func(id: Int) -> Bool {
+		!_hasFlag(mouseState, id) && _hasFlag(prevMouseState, id)
 	}
 	
 	held: static func(sym:Int) -> Bool {
@@ -46,12 +62,32 @@ Input: class {
 	}
 	
 	held: static func ~byName (name:String) -> Bool {
+		if (name startsWith?("mouse")) {
+			id: Int = name[5] - '0'
+			if (id in?(_validMouseIds)) {
+				return mouseHeld(id)
+			}
+		}
 		held(SDL getKeyFromName(name))
 	}
+	
 	pressed: static func ~byName (name:String) -> Bool {
+		if (name startsWith?("mouse")) {
+			id: Int = name[5] - '0'
+			if (id in?(_validMouseIds)) {
+				return mousePressed(id)
+			}
+		}
 		pressed(SDL getKeyFromName(name))
 	}
+	
 	released: static func ~byName (name:String) -> Bool {
+		if (name startsWith?("mouse")) {
+			id: Int = name[5] - '0'
+			if (id in?(_validMouseIds)) {
+				return mouseReleased(id)
+			}
+		}
 		released(SDL getKeyFromName(name))
 	}
 	
@@ -59,42 +95,21 @@ Input: class {
 		
 		if (!_hasInitialized) init()
 		
-		event: SdlEvent
+		scrollX = scrollY = 0
 		
 		for (i in 0.._numKeyStates)
 			prevKeyStates[i] = keyStates[i]
 		
-		mousePressed = mouseReleased = false
-		rightMousePressed = rightMouseReleased = false
-		scrollX = scrollY = 0
+		prevMouseState = mouseState
+		mouseState = SDL getMouseState(null, null)
 		
+		event: SdlEvent
 		while (SdlEvent poll(event&)) {
-			
 			match (event type) {
 				case SDL_MOUSEMOTION =>
 					mouseX = event motion x
 					mouseY = event motion y
-
-				case SDL_MOUSEBUTTONDOWN =>
-					match (event button button) {
-						case SDL_BUTTON_LEFT =>
-							mousePressed = true
-							mouseHeld = true
-						case SDL_BUTTON_RIGHT =>
-							rightMousePressed = true
-							rightMouseHeld = true
-					}
-
-				case SDL_MOUSEBUTTONUP =>
-					match (event button button) {
-						case SDL_BUTTON_LEFT =>
-							mouseReleased = true
-							mouseHeld = false
-						case SDL_BUTTON_RIGHT =>
-							rightMouseReleased = true
-							rightMouseHeld = false
-					}
-			
+					
 				case SDL_MOUSEWHEEL =>
 					scrollX = event wheel x
 					scrollY = event wheel y
