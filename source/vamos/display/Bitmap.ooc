@@ -28,9 +28,11 @@ Bitmap: class {
 		(r,g,b,a) := SurfaceLoader getChannelMasks()
 		// TODO clean this up
 		surface := SDL createRGBSurface(0, w, h, 32, r,g,b,a)
-		newSurface := SDL convertSurfaceFormat(surface, vamos screen format, 0)
-		SDL freeSurface(surface)
-		init(newSurface)
+		//newSurface := SDL convertSurfaceFormat(surface, vamos screen format, 0)
+		//SDL freeSurface(surface)
+		//init(newSurface)
+		init(surface)
+		clear()
 	}
 	
 	clone: func -> This {

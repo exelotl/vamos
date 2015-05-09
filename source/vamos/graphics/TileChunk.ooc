@@ -43,7 +43,7 @@ TileChunk: class extends Graphic {
 	allocate: func {
 		if (!data) {
 			data = gc_malloc(w * h * UInt size)
-			texture = Texture new(width, height)
+			texture = Texture new(target)
 		}
 	}
 	

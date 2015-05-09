@@ -16,6 +16,8 @@ Box: class extends Graphic {
 	borderW, borderH: Int
 	width, height: Int
 	fill? := true // Definitely turn this off if you're using repeated mode
+	borders? := true
+	corners? := true
 	mode := FillMode STRETCH
 		
 	texture: Texture
@@ -58,89 +60,92 @@ Box: class extends Graphic {
 		
 		if (dstMidW < 1 || dstMidH < 1 || srcMidW < 1 || srcMidH < 1) return
 		
-		// Top left
-		srcRect = (0, 0, borderW, borderH) as SdlRect
-		dstRect = (x, y, borderW, borderH) as SdlRect
-		screen drawTexture(texture, srcRect&, dstRect&)
-		
-		// Top Right
-		srcRect = (texture width - borderW, 0, borderW, borderH) as SdlRect
-		dstRect = (    x + width - borderW, y, borderW, borderH) as SdlRect
-		screen drawTexture(texture, srcRect&, dstRect&)
-		
-		// Bottom Left
-		srcRect = (0, texture height - borderH, borderW, borderH) as SdlRect
-		dstRect = (x,     y + height - borderH, borderW, borderH) as SdlRect
-		screen drawTexture(texture, srcRect&, dstRect&)
-		
-		// Bottom Right
-		srcRect = (texture width - borderW, texture height - borderH, borderW, borderH) as SdlRect
-		dstRect = (    x + width - borderW,     y + height - borderH, borderW, borderH) as SdlRect
-		screen drawTexture(texture, srcRect&, dstRect&)
-		
+		if (corners?) {
+			// Top left
+			srcRect = (0, 0, borderW, borderH) as SdlRect
+			dstRect = (x, y, borderW, borderH) as SdlRect
+			screen drawTexture(texture, srcRect&, dstRect&)
+
+			// Top Right
+			srcRect = (texture width - borderW, 0, borderW, borderH) as SdlRect
+			dstRect = (    x + width - borderW, y, borderW, borderH) as SdlRect
+			screen drawTexture(texture, srcRect&, dstRect&)
+
+			// Bottom Left
+			srcRect = (0, texture height - borderH, borderW, borderH) as SdlRect
+			dstRect = (x,     y + height - borderH, borderW, borderH) as SdlRect
+			screen drawTexture(texture, srcRect&, dstRect&)
+
+			// Bottom Right
+			srcRect = (texture width - borderW, texture height - borderH, borderW, borderH) as SdlRect
+			dstRect = (    x + width - borderW,     y + height - borderH, borderW, borderH) as SdlRect
+			screen drawTexture(texture, srcRect&, dstRect&)
+		}
         
-		// Left
-		srcRect = (0, borderH, borderW, srcMidH) as SdlRect
-		dstRect = (x, y+borderH, borderW, dstMidH) as SdlRect
-		
-		match (mode) {
-			case FillMode STRETCH =>
-				screen drawTexture(texture, srcRect&, dstRect&)
-				
-			case FillMode REPEAT =>
-                _repeat(dstMidH, srcMidH, |h|
-                    srcRect h = dstRect h = h
-					screen drawTexture(texture, srcRect&, dstRect&)
-                    dstRect y += h
-                )
-		}
+		if (borders?) {
+			// Left
+			srcRect = (0, borderH, borderW, srcMidH) as SdlRect
+			dstRect = (x, y+borderH, borderW, dstMidH) as SdlRect
 
-		// Right
-		srcRect = (texture width - borderW, borderH, borderW, srcMidH) as SdlRect
-		dstRect = (x + width - borderW, y + borderH, borderW, dstMidH) as SdlRect
-		
-		match (mode) {
-			case FillMode STRETCH =>
-				screen drawTexture(texture, srcRect&, dstRect&)
-				
-			case FillMode REPEAT =>
-                _repeat(dstMidH, srcMidH, |h|
-                    srcRect h = dstRect h = h
+			match (mode) {
+				case FillMode STRETCH =>
 					screen drawTexture(texture, srcRect&, dstRect&)
-                    dstRect y += h
-                )
-		}
 
-		// Top
-		srcRect = (borderW, 0, srcMidW, borderH) as SdlRect
-		dstRect = (x+borderW, y, dstMidW, borderH) as SdlRect
-		
-		match (mode) {
-			case FillMode STRETCH =>
-				screen drawTexture(texture, srcRect&, dstRect&)
-				
-			case FillMode REPEAT =>
-				_repeat(dstMidW, srcMidW, |w|
-                    srcRect w = dstRect w = w
-					screen drawTexture(texture, srcRect&, dstRect&)
-                    dstRect x += w
-                )
-		}
+				case FillMode REPEAT =>
+					_repeat(dstMidH, srcMidH, |h|
+						srcRect h = dstRect h = h
+						screen drawTexture(texture, srcRect&, dstRect&)
+						dstRect y += h
+					)
+			}
 
-		// Bottom
-		srcRect = (borderW, texture height - borderH, srcMidW, borderH) as SdlRect
-		dstRect = (x + borderW, y + height - borderH, dstMidW, borderH) as SdlRect
-		
-		match (mode) {
-			case FillMode STRETCH =>
-				screen drawTexture(texture, srcRect&, dstRect&)
-				
-			case FillMode REPEAT =>
-				_repeat(dstMidW, srcMidW, |w|
-                    srcRect w = dstRect w = w
+			// Right
+			srcRect = (texture width - borderW, borderH, borderW, srcMidH) as SdlRect
+			dstRect = (x + width - borderW, y + borderH, borderW, dstMidH) as SdlRect
+
+			match (mode) {
+				case FillMode STRETCH =>
 					screen drawTexture(texture, srcRect&, dstRect&)
-                    dstRect x += w
-                )
+
+				case FillMode REPEAT =>
+					_repeat(dstMidH, srcMidH, |h|
+						srcRect h = dstRect h = h
+						screen drawTexture(texture, srcRect&, dstRect&)
+						dstRect y += h
+					)
+			}
+
+			// Top
+			srcRect = (borderW, 0, srcMidW, borderH) as SdlRect
+			dstRect = (x+borderW, y, dstMidW, borderH) as SdlRect
+
+			match (mode) {
+				case FillMode STRETCH =>
+					screen drawTexture(texture, srcRect&, dstRect&)
+
+				case FillMode REPEAT =>
+					_repeat(dstMidW, srcMidW, |w|
+						srcRect w = dstRect w = w
+						screen drawTexture(texture, srcRect&, dstRect&)
+						dstRect x += w
+					)
+			}
+
+			// Bottom
+			srcRect = (borderW, texture height - borderH, srcMidW, borderH) as SdlRect
+			dstRect = (x + borderW, y + height - borderH, dstMidW, borderH) as SdlRect
+
+			match (mode) {
+				case FillMode STRETCH =>
+					screen drawTexture(texture, srcRect&, dstRect&)
+
+				case FillMode REPEAT =>
+					_repeat(dstMidW, srcMidW, |w|
+						srcRect w = dstRect w = w
+						screen drawTexture(texture, srcRect&, dstRect&)
+						dstRect x += w
+					)
+			}
 		}
 		
 		if (fill?) {

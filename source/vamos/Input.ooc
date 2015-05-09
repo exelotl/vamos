@@ -34,17 +34,30 @@ Input: class {
 	}
 	
 	// Left mouse button = 1, middle = 2, right = 3, extended mouse buttons = 4 & 5
+	// The common standard is right = 2 and middle = 3, should we switch it manually?
+	// Or should there be consts LeftMouseButton, RightMouseButton etc. ?
+	// Either way, There should probably be a better system than this
+	
 	mouseHeld: static func ~left -> Bool { mouseHeld(1) }
+	middleMouseHeld: static func -> Bool { mouseHeld(2) }
+	rightMouseHeld: static func -> Bool { mouseHeld(3) }
+	
 	mouseHeld: static func(id: Int) -> Bool {
 		_hasFlag(mouseState, id)
 	}
 	
 	mousePressed: static func ~left -> Bool { mousePressed(1) }
+	middleMousePressed: static func -> Bool { mousePressed(2) }
+	rightMousePressed: static func -> Bool { mousePressed(3) }
+	
 	mousePressed: static func(id: Int) -> Bool {
 		_hasFlag(mouseState, id) && !_hasFlag(prevMouseState, id)
 	}
 	
 	mouseReleased: static func ~left -> Bool { mouseReleased(1) }
+	middleMouseReleased: static func -> Bool { mouseReleased(2) }
+	rightMouseReleased: static func -> Bool { mouseReleased(3) }
+	
 	mouseReleased: static func(id: Int) -> Bool {
 		!_hasFlag(mouseState, id) && _hasFlag(prevMouseState, id)
 	}
