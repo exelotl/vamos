@@ -84,6 +84,7 @@ TileChunk: class extends Graphic {
 	draw: func (renderer:Screen, entity:Entity, x, y:Float) {
 		if (_dirty) {
 			texture copyPixels(target)
+			_dirty = false
 		}
 		renderer drawTexture(texture, null, ((x, y, width, height) as SdlRect)&)
 	}

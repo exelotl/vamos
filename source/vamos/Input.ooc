@@ -35,8 +35,6 @@ Input: class {
 	
 	// Left mouse button = 1, middle = 2, right = 3, extended mouse buttons = 4 & 5
 	// The common standard is right = 2 and middle = 3, should we switch it manually?
-	// Or should there be consts LeftMouseButton, RightMouseButton etc. ?
-	// Either way, There should probably be a better system than this
 	
 	mouseHeld: static func ~left -> Bool { mouseHeld(1) }
 	middleMouseHeld: static func -> Bool { mouseHeld(2) }
@@ -73,34 +71,32 @@ Input: class {
 		scancode := SDL getScancodeFromKey(sym)
 		return prevKeyStates[scancode] && !keyStates[scancode]
 	}
+    
+    _checkIfMouse: static func(key: String) -> (Bool, Int) {
+        if (key startsWith?("mouse")) {
+            id: Int = key[5] - '0'
+			if (id in?(_validMouseIds)) {
+				return (true, id)
+			}
+        }
+        (false, 0)
+    }
 	
 	held: static func ~byName (name:String) -> Bool {
-		if (name startsWith?("mouse")) {
-			id: Int = name[5] - '0'
-			if (id in?(_validMouseIds)) {
-				return mouseHeld(id)
-			}
-		}
+		(mouse?, id) := _checkIfMouse(name)
+        if (mouse?) return mouseHeld(id)
 		held(SDL getKeyFromName(name))
 	}
 	
 	pressed: static func ~byName (name:String) -> Bool {
-		if (name startsWith?("mouse")) {
-			id: Int = name[5] - '0'
-			if (id in?(_validMouseIds)) {
-				return mousePressed(id)
-			}
-		}
+		(mouse?, id) := _checkIfMouse(name)
+        if (mouse?) return mousePressed(id)
 		pressed(SDL getKeyFromName(name))
 	}
 	
 	released: static func ~byName (name:String) -> Bool {
-		if (name startsWith?("mouse")) {
-			id: Int = name[5] - '0'
-			if (id in?(_validMouseIds)) {
-				return mouseReleased(id)
-			}
-		}
+		(mouse?, id) := _checkIfMouse(name)
+        if (mouse?) return mouseReleased(id)
 		released(SDL getKeyFromName(name))
 	}
 	

@@ -19,7 +19,7 @@ Box: class extends Graphic {
 	borders? := true
 	corners? := true
 	mode := FillMode STRETCH
-		
+	
 	texture: Texture
 	
 	dstRect: SdlRect
@@ -40,6 +40,16 @@ Box: class extends Graphic {
 	
 	init: func~texture (=texture, =width, =height, =borderW, =borderH)
 	
+    enclose: func ~nopos(w, h: Int) {
+        enclose(0, 0, w, h)
+    }
+    enclose: func(x, y, w, h: Int) {
+        this x = x - borderW
+        this y = y - borderH
+        innerW = w
+        innerH = h
+    }
+    
     _repeat: func(top, step: Int, f: Func(Int)) {
         r := top
         i := step
@@ -52,11 +62,11 @@ Box: class extends Graphic {
         }
     }
     
-	draw: func (screen: Screen, entity: Entity, x, y: Float) {		
+	draw: func (screen: Screen, entity: Entity, x, y: Float) {
 		srcMidW := texture width - borderW * 2
 		srcMidH := texture height - borderH * 2	
-		dstMidW := width - borderW * 2
-		dstMidH := height - borderH * 2
+		dstMidW := innerW
+		dstMidH := innerH
 		
 		if (dstMidW < 1 || dstMidH < 1 || srcMidW < 1 || srcMidH < 1) return
 		

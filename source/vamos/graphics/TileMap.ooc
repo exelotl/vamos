@@ -25,7 +25,7 @@ TileMap: class extends Graphic {
 	
 	baseTileWidth, baseTileHeight: Int
 	tileOffsetX, tileOffsetY: Int
-	
+    
 	init: func ~path (path:String, .w, .h, tileW, tileH:UInt) {
 		init(vamos assets getTexture(path), w, h, tileW, tileH)
 	}
@@ -39,7 +39,12 @@ TileMap: class extends Graphic {
 		sourceH = source height / tileH
 		srcRect w = dstRect w = tileW
 		srcRect h = dstRect h = tileH
+        allocate()
 	}
+    
+    resize: func(=w, =h) {
+        free(data)
+    }
 	
 	setTileArea: func(=tileOffsetX, =tileOffsetY, =baseTileWidth, =baseTileHeight) {
 		width = w * baseTileWidth
@@ -89,7 +94,7 @@ TileMap: class extends Graphic {
 	
 	draw: func (renderer:Screen, entity:Entity, x, y:Float) {
 		if (!data) return
-		
+        
 		startX:Int = (renderer camX - entity x) / baseTileWidth - 1
 		startY:Int = (renderer camY - entity y) / baseTileHeight - 1
 		screenW := renderer width / baseTileWidth + 2
