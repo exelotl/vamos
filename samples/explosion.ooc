@@ -92,7 +92,7 @@ Enemy: class extends Entity {
 	init: func (=x, =y) {
 		size := Random randInt(10, 30)
 		mask = Hitbox new(size, size)
-		graphic = FilledRect new(size, size, 0xffff0000 + Random randInt(0, 0x2222))
+		graphic = FilledRect new(size, size, 255, Random randInt(0,34), Random randInt(0,255))
 		type = "enemy"
 		
 		velX = Random randInt(-100, 100)

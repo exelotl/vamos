@@ -44,7 +44,7 @@ TileMap: class extends Graphic {
 	resize: func(=w, =h) {
 		width = w * baseTileWidth
 		height = h * baseTileHeight
-		if (data) gc_realloc(w * h * UInt size)
+		if (data) data = gc_realloc(data, w * h * UInt size)
 	}
 	
 	setTileArea: func(=tileOffsetX, =tileOffsetY, =baseTileWidth, =baseTileHeight) {
